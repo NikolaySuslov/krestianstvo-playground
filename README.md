@@ -1,6 +1,6 @@
 # Krestianstvo | Playground
 
-Krestianstvo | Playground - is the collection of worlds and experiences, developed using SolidJS and **[Krestianstvo | Solid JS](https://github.com/NikolaySuslov/krestianstvo)**  
+Krestianstvo | Playground - is the collection of worlds and experiences, developed using **[Krestianstvo | Solid JS](https://github.com/NikolaySuslov/krestianstvo)**  
 
 ## Live Demo
 
