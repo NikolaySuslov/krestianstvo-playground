@@ -8,19 +8,23 @@ Krestianstvo | Playground - is the collection of worlds and experiences, develop
 
 ## Develop 
 
-1. Run Reflector server
+**Run Reflector server**
 
 Public running reflector: **https://time.krestianstvo.org**
 
-Run your local:  
+Run your local:   
 git clone **https://github.com/NikolaySuslov/lcs-reflector**
+
 npm install
+
 npm run start
 
-2. Run Krestianstvo | Playground
+**Run Krestianstvo | Playground**
 
-git clone **https://github.com/NikolaySuslov/krestianstvo-playground**
+git clone **https://github.com/NikolaySuslov/krestianstvo-playground**. 
+
 npm install
+
 npm run start
 
 ## Build and deploy
