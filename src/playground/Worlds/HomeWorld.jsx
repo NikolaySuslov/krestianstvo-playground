@@ -55,6 +55,7 @@ export default function HomeWorld(props) {
 
 					<hr />
 					<div p3>
+					<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/742885266?h=45918cfab7&title=0&byline=0&portrait=0" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
 						<p text-6>About</p>
 						<div text-5>
 							Here you can find the full-featured implementation of the <a href="https://croquet.io">Croquet Application Architecture</a> in functional reactive paradigm, using <a href="https://www.solidjs.com">SolidJS</a> and <a href="https://github.com/adamhaile/S">S.JS</a>. It is based on just signals and reactive computations. Virtual Time and Reflector are based on <a href="https://github.com/virtual-world-framework/vwf">Virtual World Framework's</a> implementation. Krestianstvo is minimal and distributed as a standalone ESM module, that could be easily bundled with any <a href="https://www.solidjs.com">SolidJS</a> or <a href="https://astro.build/">Astro</a> web application.
@@ -90,7 +91,7 @@ export default function HomeWorld(props) {
 						<nav text-4 style={{ width: "fit-content" }}>
 							<Link class="block p2" href="https://github.com/NikolaySuslov/krestianstvo-playground">Krestianstvo Playground on GitHub </Link>
 							<Link class="block p2" href="https://github.com/NikolaySuslov/krestianstvo">Krestianstvo core SolidJS on GitHub </Link>
-							<Link class="block p2" href="https://github.com/NikolaySuslov/krestianstvo-sjs">Krestianstvo core S.js on GitHub </Link>
+							<Link class="block p2" href="https://github.com/NikolaySuslov/krestianstvo-s.js">Krestianstvo core S.js on GitHub </Link>
 							<Link class="block p2" href="https://github.com/NikolaySuslov/lcs-reflector">Krestianstvo Reflector server on GitHub</Link>
 						</nav>
 
