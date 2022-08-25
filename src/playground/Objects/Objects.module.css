@@ -1,0 +1,55 @@
+.App {
+  /* text-align: center; */
+  margin: 10px;
+  /* width:100%; */
+  /* height:100vh; */
+  padding: 10px;
+  border-width: 1px;
+  border-style: dotted;
+  position: relative;
+}
+
+
+.avatarCircle{
+  background:rgba(104, 242, 120);
+  opacity: 0.7;
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  position: absolute;  
+  font-size: small;
+  
+  transform:translate3d(-50%,-50%,0);
+  transition:transform 0.1s cubic-bezier(.02,1.23,.79,1.08); 
+  z-index: 100; 
+  pointer-events: none;
+  top: 0;
+  left: 0;
+}
+
+.avatarBox{
+  background:rgba(104, 242, 120);
+  opacity: 0.7;
+  width:40px;
+  height:40px;
+   /* border-radius:50%; */
+  position: absolute;  
+  font-size: small;
+  
+  transform:translate3d(-50%,-50%,0);
+  transition:transform 0.1s cubic-bezier(.02,1.23,.79,1.08); 
+  z-index: 100; 
+  pointer-events: none;
+  top: 0;
+  left: 0;
+}
+
+.avatarLabel {
+  margin-left: 50px;
+  width: 200px;
+  /* display: inline-block; */
+}
+
+.avatarBody{
+  pointer-events:none;
+}
