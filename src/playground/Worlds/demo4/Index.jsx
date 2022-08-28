@@ -182,6 +182,8 @@ function App(props) {
                     fallbackWorld={props.worlds.emptyWorld}
                     resources={props.selo.resources}
                     dc={local.data.properties.dc}
+                    angle={local.data.properties.angle}
+                    scale={local.data.properties.scale}
                   />
                 </div>
               }
