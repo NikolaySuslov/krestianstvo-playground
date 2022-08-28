@@ -38,7 +38,7 @@ function App(props) {
         initialized: false,
         scale: props.scale ? props.scale : 1,
         angle: props.angle ? props.angle : 0,
-        deepCount: 1
+        dc: props.parameters ? props.parameters : 5
       },
       dynamic: [
       ],
@@ -110,7 +110,7 @@ function App(props) {
   const [uiEl, setUiEl] = createSignal(null);
 
 
-  return (props.deep > 5) ? null : (
+  return (props.deep > local.data.properties.dc) ? null : (
 
     <>
 
@@ -159,7 +159,7 @@ function App(props) {
             <div class="truncate flex">
               <button class={buttonGreen()} onClick={[handleClick, ["createSelo", { app: "demo1", info: true, reflectorHost: props.rootSelo ? props.rootSelo.reflectorHost : props.selo.reflectorHost, deep: props.deep, id: uuidv4() }]]}>New Selo</button>
               <button class={buttonGreen()} onClick={handleCreateCounter}>New Counter</button>
-              <button class={buttonGreen()} onClick={[handleClick, ["createNode", { type: "App", component: "demo1", id: uuidv4() }]]}>New App</button>
+              <button class={buttonGreen()} onClick={[handleClick, ["createNode", { type: "App", component: "demo1", id: uuidv4(), noAvatar: true }]]}>New App</button>
             </div>
 
             <For each={local.data.dynamic}>
@@ -173,11 +173,15 @@ function App(props) {
                   <Dynamic component={components[item.component]}
                     nodeID={item.nodeID}
                     name={item.name}
+                    noAvatar={item.noAvatar}
                     dynamic={true}
                     parentID={props.nodeID}
                     selo={props.selo}
-                    rootSelo={props.rootSelo}
-                    angle={props.angle}
+                    deep={props.deep}
+                    worlds={props.worlds}
+                    fallbackWorld={props.worlds.emptyWorld}
+                    resources={props.selo.resources}
+                    dc={local.data.properties.dc}
                   />
                 </div>
               }
@@ -205,7 +209,12 @@ function App(props) {
                     nodeID={item.app}
                     component={components[item.app]}
                     seloID={item.seloID}
-                    info={true}
+                    info={item.info}
+                    reflectorHost={item.reflectorHost}
+                    parentSeloID={props.selo.id}
+                    dc={local.data.properties.dc}
+                    worlds={props.worlds}
+                    fallbackWorld={props.worlds.emptyWorld}
                   />
                 </div>
               }
@@ -221,6 +230,10 @@ function App(props) {
             deep={props.deep + 1}
             selo={newLocalSelo}
             rootSelo={props.rootSelo ? props.rootSelo : props.selo}
+            noAvatar={true}
+            worlds={props.worlds}
+            fallbackWorld={props.worlds.emptyWorld}
+            parameters={props.parameters}
           />
 
         </div>

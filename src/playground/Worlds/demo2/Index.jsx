@@ -40,7 +40,7 @@ function App(props) {
         initialized: false,
         scale: props.scale ? props.scale : 1,
         angle: props.angle ? props.angle : 0,
-        deepCount: 1
+        dc: props.parameters ? props.parameters : 5
       },
       dynamic: [
       ],
@@ -89,7 +89,7 @@ function App(props) {
   const [el, setEl] = createSignal(null);
   const [uiEl, setUiEl] = createSignal(null);
 
-  return (props.deep > 5) ? null : (
+  return (props.deep > local.data.properties.dc) ? null : (
     <>
 
       <div class="bg-blend-color relative flex h-full p1 m2"
@@ -136,7 +136,7 @@ function App(props) {
             <div class="truncate flex">
               <button class={buttonGreen()} onClick={[handleClick, ["createSelo", { app: "painter" }]]}>New Selo</button>
               <button class={buttonGreen()} onClick={[handleClick, ["createNode", { component: "Counter" }]]}>New Counter</button>
-              <button class={buttonGreen()} onClick={[handleClick, ["createNode", { type: "App", component: "demo1" }]]}>New App</button>
+              <button class={buttonGreen()} onClick={[handleClick, ["createNode", { type: "App", component: "demo1", noAvatar: true }]]}>New App</button>
             </div>
 
             <For each={local.data.dynamic}>
@@ -145,14 +145,21 @@ function App(props) {
                 <div p1>
                   <button class={smallButton()} onClick={[handleClick, ["deleteNode", item.nodeID]]}>X</button>
                   <button class={smallButton()} onClick={
-                    [handleClick, ["createNode", { id: item.nodeID, component: item.component }]]}>clone</button>
+                    [handleClick, ["createNode", { id: item.nodeID, component: item.component, noAvatar: item.noAvatar }]]}>clone</button>
 
-                  <Dynamic component={components[item.component]}
+                <Dynamic
+                    component={components[item.component]}
                     nodeID={item.nodeID}
                     name={item.name}
+                    noAvatar={item.noAvatar}
                     dynamic={true}
                     parentID={props.nodeID}
                     selo={props.selo}
+                    deep={props.deep}
+                    worlds={props.worlds}
+                    fallbackWorld={props.worlds.emptyWorld}
+                    resources={props.selo.resources}
+                    dc={local.data.properties.dc}
                   />
                 </div>
               }
@@ -195,8 +202,9 @@ function App(props) {
             deep={props.deep + 1}
             selo={props.selo}
             noAvatar={true}
+            fallbackWorld={props.worlds.emptyWorld}
+            worlds={props.worlds}
           />
-
         </div>
       </div>
     </>

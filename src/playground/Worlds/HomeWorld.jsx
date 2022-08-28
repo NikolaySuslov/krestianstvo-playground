@@ -74,16 +74,16 @@ export default function HomeWorld(props) {
 							<Link class="block p2" href="/demo1">World with counter and portals</Link>
 							<Link class="block p2" href="/rapier">RapierJS world: cross-platform determinism </Link>
 							<Link class="block p2" href="/multi">MultiPixel: Recursive ThreeJS world</Link>
-							<Link class="block p2" href="/demo3">Recursive Selo</Link>
-							<Link class="block p2" href="/demo2">Recursive World app in single Selo</Link>
 							<Link class="block p2" href="/pixel">Pixel: ThreeJS world ready for multipixel</Link>
 							<Link class="block p2" href="/fiber">SolidJS Fiber / ThreeJS world </Link>
 							<Link class="block p2" href="/painter">Paint canvas</Link>
+							<Link class="block p2" href="/demo3">Recursive Selo</Link>
+							<Link class="block p2" href="/demo2">Recursive World app in single Selo</Link>
+							<Link class="block p2" href="/demo2">Recursive World app in multi-local Selos</Link>
 							<Link class="block p2" href="/grid?p=1">Grid 1: world with 1 portal </Link>
 							<Link class="block p2" href="/grid?p=4">Grid 4: world with 4 portals </Link>
 							<Link class="block p2" href="/errorworld">404 world </Link>
 							<Link class="block p2" href="/counter">Counter object as world </Link>
-
 						</nav>
 						<hr></hr>
 

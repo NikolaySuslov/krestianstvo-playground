@@ -110,13 +110,12 @@ export default function Demo1(props) {
             <div class="truncate flex">
               <button class={buttonGreen()} onClick={[handleClick, ["createSelo", { app: "demo1", info: true, reflectorHost: props.selo.reflectorHost, deep: props.deep }]]}>New Selo</button>
               <button class={buttonGreen()} onClick={[handleClick, ["createNode", { component: "Counter" }]]}>New Counter</button>
-              <button class={buttonGreen()} onClick={[handleClick, ["createNode", { type: "App", component: "demo1", deep: props.deep, worldsPath: '/src/playground/Worlds/', noAvatar: true }]]}>New App</button>
+              <button class={buttonGreen()} onClick={[handleClick, ["createNode", { type: "App", component: "demo1", deep: props.deep, noAvatar: true }]]}>New App</button>
               <button class={buttonGreen()} onClick={[handleClick, ["createNode", {
                 type: "App", component: "portal", deep: props.deep
               }]]}>New Portal</button>
               <button class={buttonGreen()} onClick={[handleClick, ["createNode", {
-                type: "App", component: "appCreator", deep: props.deep,
-                worldsPath: '/src/playground/Worlds/'
+                type: "App", component: "appCreator", deep: props.deep
               }]]}>New App Portal</button>
             </div>
 
@@ -141,14 +140,15 @@ export default function Demo1(props) {
                     component={components[item.component]}
                     nodeID={item.nodeID}
                     name={item.name}
+                    noAvatar={item.noAvatar}
                     dynamic={true}
                     parentID={props.nodeID}
                     selo={props.selo}
                     deep={props.deep}
-                    noAvatar={item.noAvatar}
                     worlds={props.worlds}
                     fallbackWorld={props.worlds.emptyWorld}
                     resources={props.selo.resources}
+                    dc={props.dc}
                   />
                 </div>
               }
@@ -193,10 +193,9 @@ export default function Demo1(props) {
                     reflectorHost={item.reflectorHost}
                     parentSeloID={props.selo.id}
                     deep={props.deep - 1}
-                    deepCount={4}
+                    dc={props.parameters ? props.parameters: 4}
                     worlds={props.worlds}
                     fallbackWorld={props.worlds.emptyWorld}
-
                   />
                 </div>
               }
