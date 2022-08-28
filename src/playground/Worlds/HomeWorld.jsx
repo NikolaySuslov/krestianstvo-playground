@@ -79,7 +79,7 @@ export default function HomeWorld(props) {
 							<Link class="block p2" href="/painter">Paint canvas</Link>
 							<Link class="block p2" href="/demo3">Recursive Selo</Link>
 							<Link class="block p2" href="/demo2">Recursive World app in single Selo</Link>
-							<Link class="block p2" href="/demo2">Recursive World app in multi-local Selos</Link>
+							<Link class="block p2" href="/demo4">Recursive World app in multi-local Selos</Link>
 							<Link class="block p2" href="/grid?p=1">Grid 1: world with 1 portal </Link>
 							<Link class="block p2" href="/grid?p=4">Grid 4: world with 4 portals </Link>
 							<Link class="block p2" href="/errorworld">404 world </Link>
