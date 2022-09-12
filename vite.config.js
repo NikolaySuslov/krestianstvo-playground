@@ -37,7 +37,7 @@ export default defineConfig(async (mode) => ({
             },
             {
               name: "universal",
-              moduleName: "solid-three",
+              moduleName: "@krestianstvo/solid-three",
               elements: []
             }
           ]

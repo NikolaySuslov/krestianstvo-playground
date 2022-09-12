@@ -9,8 +9,9 @@ import { createStore, produce, unwrap, reconcile } from "solid-js/store";
 import { createLocalStore, Selo, createQRCode, getRandomColor } from 'krestianstvo'
 import { v4 as uuidv4 } from 'uuid';
 
-import { Canvas, useThree, useFrame } from "solid-three";
-import { OrbitControls, useGLTF } from "solid-drei";
+import { Canvas, useThree, useFrame } from "@krestianstvo/solid-three";
+import { OrbitControls } from "../../Objects/Fiber/OrbitControls"
+import { useGLTF } from "solid-drei";
 //import { WebGLRenderer } from "three/src/renderers/WebGLRenderer";
 
 import { CoefficientCombineRule, ColliderDesc, RigidBody, RigidBodyDesc, World, Vector3, Quaternion } from '@dimforge/rapier3d-compat';
@@ -171,7 +172,7 @@ function App(props) {
   }
 
   const doRapierWorldStep = () => {
-    // console.log("Time: ", props.selo.storeNode.tick)
+    //  console.log("Time: ", props.selo.storeNode.tick)
 
     props.rapier.world.step(props.rapier.events)
 
@@ -181,7 +182,7 @@ function App(props) {
       let position = b.translation();
       let rotation = b.rotation();
 
-      //console.log("Pos: ", position)
+      // console.log("Pos: ", position)
       // console.log("Rot: ", rotation)
 
       props.selo.future(props.nodeID, "changeBoxPosition", 0, [position.x, position.y, position.z])
@@ -253,8 +254,9 @@ function App(props) {
   }
   function Box(props) {
     let box;
-    let model = props.model //cube[0]()
-    console.log("GLTF: ", model)
+    const [model] = useGLTF('/dice.glb')
+    // let model = props.model //cube[0]()
+    // console.log("GLTF: ", model)
 
     // useThree((state)=>{
     //   console.log("State: ",box)
@@ -262,7 +264,8 @@ function App(props) {
     useFrame(() => {
       if (props.rapier.world) {
         let rot = new Quaternion(...props.qRotation)
-        box.setRotationFromQuaternion(rot)
+        if(box)
+          box.setRotationFromQuaternion(rot)
       }
     })
 
@@ -274,12 +277,14 @@ function App(props) {
     }
 
     return (
+      <Show when={model()}>
       <mesh position={props.position}
         scale={[0.5, 0.5, 0.5]}
         ref={box} castShadow onClick={handleBoxClick}
-        geometry={model.nodes.Cube.geometry}
-        material={model.materials.Material} >
+        geometry={model().nodes.Cube.geometry}
+        material={model().materials.Material} >
       </mesh>
+      </Show>
     )
 
   //   <mesh position={props.position} ref={box} castShadow onClick={handleBoxClick}>

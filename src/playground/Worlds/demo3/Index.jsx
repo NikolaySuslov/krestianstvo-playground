@@ -201,7 +201,7 @@ export default function Demo3(props) {
 
 
           {/* Recursive Selo */}
-          <Show when={props.selo.storeVT.moniker_}>
+          <Show when={props.selo.storeVT.moniker_ && props.selo.storeVT.stateSynced == true }>
             <Selo
               seloID={props.selo.id}
               nodeID={"demo3"}

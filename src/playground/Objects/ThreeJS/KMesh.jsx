@@ -10,12 +10,12 @@ import { createLocalStore } from 'krestianstvo'
 import { Mesh } from "three/src/objects/Mesh";
 import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial";
 import { MeshNormalMaterial } from "three/src/materials/MeshNormalMaterial";
-import { BoxBufferGeometry } from "three/src/geometries/BoxGeometry";
+import { BoxGeometry } from "three/src/geometries/BoxGeometry";
 
 const THREE = {
 	Mesh,
 	MeshNormalMaterial,
-	BoxBufferGeometry,
+	BoxGeometry,
 	MeshPhongMaterial
 };
 
@@ -40,8 +40,8 @@ const KMesh = (props) => {
 	}, props);
 
 
-	let geometry = props.geometry ? new THREE.BoxBufferGeometry(props.geometry[0], props.geometry[1], props.geometry[2]) :
-		new THREE.BoxBufferGeometry(2, 2, 2);
+	let geometry = props.geometry ? new THREE.BoxGeometry(props.geometry[0], props.geometry[1], props.geometry[2]) :
+		new THREE.BoxGeometry(2, 2, 2);
 
 
 	const material = new THREE.MeshPhongMaterial({ color: local.data.properties.color });

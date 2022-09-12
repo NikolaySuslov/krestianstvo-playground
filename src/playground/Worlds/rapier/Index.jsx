@@ -13,7 +13,7 @@ import SeloInfo from "../../Objects/Info"
 
 import { v4 as uuidv4 } from 'uuid';
 
-import { Canvas, useThree, useFrame} from "solid-three";
+import { Canvas, useThree, useFrame} from "@krestianstvo/solid-three";
 import { OrbitControls } from "solid-drei";
 //import { Vector3 } from "three"
 //import { WebGLRenderer } from "three/src/renderers/WebGLRenderer";
@@ -167,6 +167,9 @@ const postInitialize = () => {
         //physicsWorld: physicsWorld
     })
     console.log("First Init physics: ", obj.world)
+
+    setResume(true)
+    setRapierData(obj)
     } else {
 
   
@@ -184,11 +187,14 @@ const postInitialize = () => {
 
     console.log("World state:", local.data.rapierWorldState)
     console.log("RESTORE from snapshot physics: ", obj.world)
-    }
-
 
     setResume(true)
     setRapierData(obj)
+    }
+
+
+    // setResume(true)
+    // setRapierData(obj)
    
     props.selo.setStoreVT("rapierWorld", obj.world)//rapierData().world)
 
@@ -198,9 +204,9 @@ const postInitialize = () => {
   function Physics(props) {
 
      return (<>
-      <Show when={props.selo.storeVT.stateSynced == true && resume() == true && rapierData().rapier}> 
+      {/* <Show when={props.selo.storeVT.stateSynced == true && resume() == true && rapierData().rapier}>  */}
       <Space {...props}  rapier={rapierData()} />
-      </Show> 
+      {/* </Show>  */}
      </>)
 
   }

@@ -1,6 +1,6 @@
 {
   "name": "krestianstvo-playground",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "files": [
     "dist"
   ],
@@ -9,36 +9,36 @@
     "build": "vite build",
     "start": "vite",
     "dev": "vite",
-    "serve": "vite preview --port 3001"
+    "serve": "vite preview"
   },
   "license": "MIT",
   "devDependencies": {
-    "@solid-primitives/memo": "1.0.1",
-    "@solid-primitives/scheduled": "1.0.0",
-    "@solid-primitives/utils": "3.0.1",
+    "@solid-primitives/memo": "1.0.2",
+    "@solid-primitives/scheduled": "1.0.1",
+    "@solid-primitives/utils": "3.0.2",
     "@unocss/vite": "^0.45.7",
-    "vite": "^3.0.7",
+    "vite": "^3.1.0",
     "vite-plugin-solid": "^2.3.0"
   },
   "dependencies": {
-    "solid-drei": "^0.0.3",
-    "solid-leva": "^0.0.2",
-    "solid-three": "^0.0.3",
-    "three": "^0.143.0",
-    "three-stdlib": "^2.13.0",
-    "unocss": "0.45.7",
-    "solid-app-router": "^0.4.2",
     "@dimforge/rapier3d-compat": "0.9.0",
-    "@solid-primitives/mouse": "2.0.0",
-    "@solid-primitives/pointer": "0.1.0",
-    "@solid-primitives/raf": "2.1.0",
+    "@krestianstvo/solid-three": "0.0.4",
+    "@solid-primitives/mouse": "2.0.2",
+    "@solid-primitives/pointer": "0.2.1",
+    "@solid-primitives/raf": "2.1.2",
     "alea": "^1.0.1",
-    "krestianstvo": "0.1.2",
+    "krestianstvo": "^0.1.3",
     "qheap": "^1.4.0",
     "qr-creator": "^1.0.0",
-    "socket.io-client": "^4.5.1",
-    "solid-js": "^1.4.8",
+    "socket.io-client": "^4.5.2",
+    "solid-app-router": "^0.4.2",
+    "solid-drei": "^0.0.3",
+    "solid-js": "^1.5.4",
+    "solid-leva": "^0.0.2",
     "solid-styled-components": "^0.28.4",
+    "three": "^0.144.0",
+    "three-stdlib": "^2.15.0",
+    "unocss": "0.45.7",
     "uuid": "^8.3.2"
   }
 }

@@ -11,9 +11,6 @@ import worlds from "./Worlds"
 
 import { generateURL, Selo } from "krestianstvo"
 
-import {useGLTF } from "solid-drei";
-const [resources] = useGLTF('/dice.glb')
-
 export default function World(props) {
 
     const location = useLocation();
@@ -27,7 +24,6 @@ export default function World(props) {
     const worldComp = props.worlds[params.world]
    
     return (
-    <Show when={resources()}>
         <Selo
             nodeID={params.world}
             seloID={seloID}
@@ -37,8 +33,6 @@ export default function World(props) {
             component={worldComp}
             worlds={worlds}
             fallbackWorld={worlds.emptyWorld}
-            resources={resources()}
         />
-        </Show>
     )
 }

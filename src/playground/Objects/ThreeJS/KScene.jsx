@@ -8,7 +8,7 @@ Copyright (c) 2022 Nikolay Suslov and the Krestianstvo.org project contributors.
 import { createEffect, onMount, children, onCleanup, createSignal } from 'solid-js';
 import { createLocalStore } from 'krestianstvo'
 
-import { BoxBufferGeometry } from "three/src/geometries/BoxGeometry";
+import { BoxGeometry } from "three/src/geometries/BoxGeometry";
 import { DirectionalLight } from "three/src/lights/DirectionalLight";
 import { Mesh } from "three/src/objects/Mesh";
 import { MeshNormalMaterial } from "three/src/materials/MeshNormalMaterial";
@@ -20,7 +20,7 @@ import createRAF from "@solid-primitives/raf";
 
 const THREE = {
 	DirectionalLight,
-	BoxBufferGeometry,
+	BoxGeometry,
 	Mesh,
 	MeshNormalMaterial,
 	PerspectiveCamera,

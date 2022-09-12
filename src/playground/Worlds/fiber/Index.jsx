@@ -5,7 +5,7 @@ Copyright (c) 2022 Nikolay Suslov and the Krestianstvo.org project contributors.
 (https://github.com/NikolaySuslov/krestianstvo/blob/master/LICENSE.md)
 */
 
-import { createSignal, onMount, onCleanup, Show, lazy, Suspense } from 'solid-js';
+import { createSignal, onMount, onCleanup, Show, lazy, createMemo, createEffect } from 'solid-js';
 import { createLocalStore, Selo, createQRCode, getRandomColor } from 'krestianstvo'
 import Avatar from "../../Objects/Avatar"
 import { v4 as uuidv4 } from 'uuid';
@@ -13,9 +13,13 @@ import { v4 as uuidv4 } from 'uuid';
 import DefaultAvatar from "../../Objects/DefaultAvatar"
 import SeloInfo from "../../Objects/Info"
 
-import { Canvas, useThree, useFrame } from "solid-three";
-import { OrbitControls } from "solid-drei";
+import { Canvas, useThree, useFrame } from "@krestianstvo/solid-three";
+
+import { OrbitControls } from "../../Objects/Fiber/OrbitControls"
+
+//import { OrbitControls } from "solid-drei";
 // import { WebGLRenderer } from "three/src/renderers/WebGLRenderer";
+
 
 function App(props) {
 
@@ -73,12 +77,16 @@ function App(props) {
   onMount(() => {
   })
 
+
   function Box(props) {
     let box;
+
+    // let cv = box.__r3f.root.getState().gl.domElement;
 
     // useThree((state)=>{
     //   console.log("State: ",box)
     //  })
+
     // useFrame(()=>{
     // })
 
@@ -174,7 +182,9 @@ function App(props) {
                   <meshStandardMaterial color={"white"} />
                 </mesh>
                 <spotLight castShadow position={[-5, 5, 5]} intensity={1} />
-                <OrbitControls />
+
+                <OrbitControls makeDefault={true}/>
+
               </Canvas>
             </Suspense>
           </div>

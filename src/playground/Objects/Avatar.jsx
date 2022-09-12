@@ -66,6 +66,7 @@ export default function Avatar(props) {
 			createPerPointerListeners({
 				target: () => props.el(),
 				onEnter(e, { onDown, onMove, onUp, onLeave }) {
+					props.el().focus()
 					onDown(({ x, y }) => {
 						let cp = getMousePos(props.el(), x, y)
 						props.selo.sendExtMsg({ msg: "mouseEvent", id: props.nodeID, params: ["mouseDown", props.nodeID, cp.x, cp.y] })
@@ -110,10 +111,10 @@ export default function Avatar(props) {
 	const initialize = (data) => {
 		console.log("INITIALIZE: ", local.data)
 
-		batch(() => {
+		//batch(() => {
 			setRandomColor()
 			animate()
-		})
+		//})
 
 	}
 
@@ -121,7 +122,7 @@ export default function Avatar(props) {
 		let penID = 'pen_' + props.nodeID;
 		if (props.selo.getNodeByID(penID)) {
 			console.log("Changed pen color:", local.data.properties.color)
-			props.selo.future(penID, "changeColor", 0, local.data.properties.color)
+			props.selo.future(penID, "changeColor", 0.01, local.data.properties.color)
 		}
 	})
 
@@ -158,10 +159,10 @@ export default function Avatar(props) {
 
 	function handleMouseMoveSate(event) {
 
-		batch(() => {
+		//batch(() => {
 			setLocal("data", "properties", "clientX", event[0].x)
 			setLocal("data", "properties", "clientY", event[0].y)
-		})
+		//})
 
 
 	}
