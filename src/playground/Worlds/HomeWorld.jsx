@@ -46,7 +46,7 @@ export default function HomeWorld(props) {
 				</Show>
 
 				<div m2 p2>
-					<p text-9>Krestianstvo | Playground</p>
+					<p text-9>Krestianstvo SDK 4 | Playground</p>
 					<nav>
 						<Link href="/">Home </Link>
 						<Link class="p2" href="/settings">Settings</Link>
@@ -54,8 +54,14 @@ export default function HomeWorld(props) {
 					</nav>
 
 					<hr />
-					<div p3>
+					<div p3 grid grid-rows-1 grid-cols-3>
+
 					<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/742885266?h=45918cfab7&title=0&byline=0&portrait=0" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+					<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/749401757?h=0a7c6f0a3b&title=0&byline=0&portrait=0" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+					<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/745245330?h=a0a4584482&title=0&byline=0&portrait=0" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+
+					</div>
+					<div p3>
 						<p text-6>About</p>
 						<div text-5>
 							Here you can find the full-featured implementation of the <a href="https://croquet.io">Croquet Application Architecture</a> in functional reactive paradigm, using <a href="https://www.solidjs.com">SolidJS</a> and <a href="https://github.com/adamhaile/S">S.JS</a>. It is based on just signals and reactive computations. Virtual Time and Reflector are based on <a href="https://github.com/virtual-world-framework/vwf">Virtual World Framework's</a> implementation. Krestianstvo is minimal and distributed as a standalone ESM module, that could be easily bundled with any <a href="https://www.solidjs.com">SolidJS</a> or <a href="https://astro.build/">Astro</a> web application.
@@ -84,6 +90,7 @@ export default function HomeWorld(props) {
 							<Link class="block p2" href="/grid?p=4">Grid 4: world with 4 portals </Link>
 							<Link class="block p2" href="/errorworld">404 world </Link>
 							<Link class="block p2" href="/counter">Counter object as world </Link>
+							<Link class="block p2" href="https://krestianstvo.org/s">Demo world with S.js</Link>
 						</nav>
 						<hr></hr>
 
