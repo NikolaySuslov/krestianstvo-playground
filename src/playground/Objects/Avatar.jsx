@@ -111,10 +111,10 @@ export default function Avatar(props) {
 	const initialize = (data) => {
 		console.log("INITIALIZE: ", local.data)
 
-		//batch(() => {
+		batch(() => {
 			setRandomColor()
 			animate()
-		//})
+		})
 
 	}
 
@@ -159,10 +159,10 @@ export default function Avatar(props) {
 
 	function handleMouseMoveSate(event) {
 
-		//batch(() => {
+		batch(() => {
 			setLocal("data", "properties", "clientX", event[0].x)
 			setLocal("data", "properties", "clientY", event[0].y)
-		//})
+		})
 
 
 	}

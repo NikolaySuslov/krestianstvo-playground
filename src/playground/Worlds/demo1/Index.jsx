@@ -159,6 +159,7 @@ export default function Demo1(props) {
             <SeloPortal
               {...props}
               nodeID={genID("Portal" + props.nodeID, path)}
+              noAvatar = {false}
               //deep={props.deep}
               //url={"pixel?k=1"}
               //param={(props.param ? props.param : 0) + 1}
