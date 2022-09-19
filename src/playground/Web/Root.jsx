@@ -5,7 +5,7 @@ Copyright (c) 2022 Nikolay Suslov and the Krestianstvo.org project contributors.
 */
 
 import { lazy } from "solid-js";
-import { Routes, Route } from "solid-app-router"
+import { Routes, Route } from "@solidjs/router"
 import { Selo } from "krestianstvo"
 
 const World = lazy(() => import('./World'))

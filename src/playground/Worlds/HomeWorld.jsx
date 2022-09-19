@@ -5,7 +5,7 @@ Copyright (c) 2022 Nikolay Suslov and the Krestianstvo.org project contributors.
 */
 
 import { createSignal } from "solid-js"
-import { Link } from "solid-app-router"
+import { Link } from "@solidjs/router"
 import { createLocalStore, getRandomColor } from 'krestianstvo'
 import DefaultAvatar from "../Objects/DefaultAvatar"
 

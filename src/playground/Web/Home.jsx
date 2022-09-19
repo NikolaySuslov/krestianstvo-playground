@@ -4,7 +4,7 @@ Copyright (c) 2022 Nikolay Suslov and the Krestianstvo.org project contributors.
 (https://github.com/NikolaySuslov/krestianstvo/blob/master/LICENSE.md)
 */
 
-import { Link } from "solid-app-router"
+import { Link } from "@solidjs/router"
 
 export default function Home(props) {
 

@@ -154,7 +154,7 @@ export default function Avatar(props) {
 		let penID = 'pen_' + props.nodeID;
 		if (props.selo.getNodeByID(penID)) {
 			console.log("Changed pen color:", local.data.properties.color)
-			props.selo.future(penID, "changeColor", 0, local.data.properties.color)
+			props.selo.future(penID, "changeColor", 0.01, local.data.properties.color)
 		}
 	})
 

@@ -5,7 +5,7 @@ Copyright (c) 2022 Nikolay Suslov and the Krestianstvo.org project contributors.
 */
 
 
-import { useLocation, useSearchParams, useParams } from "solid-app-router"
+import { useLocation, useSearchParams, useParams } from "@solidjs/router"
 import { createMemo } from "solid-js";
 import worlds from "./Worlds"
 
