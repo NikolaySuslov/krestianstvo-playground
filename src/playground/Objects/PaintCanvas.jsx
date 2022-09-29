@@ -192,6 +192,7 @@ const PaintCanvas = (props) => {
 
 		createPerPointerListeners({
 			target: () => canvas,
+			pointerTypes: ['mouse', 'touch', 'pen'],
 			onEnter(e, { onDown, onMove, onUp, onLeave }) {
 				let last;
 
@@ -232,7 +233,8 @@ const PaintCanvas = (props) => {
 	return (
 		<>
 			<div class="relative" style={{
-				userSelect: 'none'
+				userSelect: 'none',
+				'touch-action': 'none' 
 			}}>
 				<canvas ref={canvas} width={local.data.properties.width} height={local.data.properties.height} />
 			</div>

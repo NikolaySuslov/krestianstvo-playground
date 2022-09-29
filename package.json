@@ -14,11 +14,11 @@
   "license": "MIT",
   "devDependencies": {
     "@solid-primitives/memo": "1.0.2",
-    "@solid-primitives/scheduled": "1.0.1",
+    "@solid-primitives/scheduled": "1.0.2",
     "@solid-primitives/utils": "3.0.2",
-    "@unocss/vite": "^0.45.21",
-    "vite": "^3.1.2",
-    "vite-plugin-solid": "2.3.2"
+    "@unocss/vite": "^0.45.25",
+    "vite": "^3.1.4",
+    "vite-plugin-solid": "2.3.9"
   },
   "dependencies": {
     "@dimforge/rapier3d-compat": "0.9.0",
@@ -27,18 +27,18 @@
     "@solid-primitives/pointer": "0.2.1",
     "@solid-primitives/raf": "2.1.2",
     "alea": "^1.0.1",
-    "krestianstvo": "0.1.4",
+    "krestianstvo": "^0.1.5",
     "qheap": "^1.4.0",
     "qr-creator": "^1.0.0",
     "socket.io-client": "^4.5.2",
     "@solidjs/router": "^0.4.3",
     "solid-drei": "^0.0.3",
-    "solid-js": "^1.5.5",
+    "solid-js": "^1.5.7",
     "solid-leva": "^0.0.2",
     "solid-styled-components": "^0.28.4",
     "three": "^0.144.0",
-    "three-stdlib": "^2.15.0",
-    "unocss": "0.45.21",
+    "three-stdlib": "^2.17.0",
+    "unocss": "0.45.25",
     "uuid": "^9.0.0"
   }
 }

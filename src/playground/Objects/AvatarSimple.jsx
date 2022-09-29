@@ -63,8 +63,12 @@ export default function Avatar(props) {
 
 		if (props.nodeID == props.moniker_) {
 			createPerPointerListeners({
+				// passive: false,
 				target: () => props.el(),
+				pointerTypes: ['mouse', 'touch', 'pen'],
 				onEnter(e, { onDown, onMove, onUp, onLeave }) {
+					props.el().focus()
+					//e.preventDefault();
 					onDown(({ x, y }) => {
 						let cp = getMousePos(props.el(), x, y)
 						props.selo.sendExtMsg({ msg: "mouseEvent", id: props.nodeID, params: ["mouseDown", props.nodeID, cp.x, cp.y] })
