@@ -66,6 +66,11 @@ export default function HomeWorld(props) {
 						<div text-5>
 							Here you can find the full-featured implementation of the <a href="https://croquet.io">Croquet Application Architecture</a> in functional reactive paradigm, using <a href="https://www.solidjs.com">SolidJS</a> and <a href="https://github.com/adamhaile/S">S.JS</a>. It is based on just signals and reactive computations. Virtual Time and Reflector are based on <a href="https://github.com/virtual-world-framework/vwf">Virtual World Framework's</a> implementation. Krestianstvo is minimal and distributed as a standalone ESM module, that could be easily bundled with any <a href="https://www.solidjs.com">SolidJS</a> or <a href="https://astro.build/">Astro</a> web application.
 						</div>
+						<p text-6><Link class="block" href="https://docs.krestianstvo.org">Read Documentation</Link></p>
+						{/* Documentation</p>
+						<nav text-5 style={{ width: "fit-content" }}>
+							<Link class="block p2" href="https://docs.krestianstvo.org">Documnentation</Link>
+						</nav> */}
 						<p text-6>Demo Worlds</p>
 						<div text-5>
 							<p> - All demos are collaborative worlds, just use the generated URL links or QR codes to join from other devices / web browsers</p>
@@ -102,7 +107,7 @@ export default function HomeWorld(props) {
 							<Link class="block p2" href="https://github.com/NikolaySuslov/lcs-reflector">Krestianstvo Reflector server on GitHub</Link>
 						</nav>
 
-						<p text-6>TODO: API & Documentation</p>
+						{/* <p text-6>TODO: API & Documentation</p> */}
 
 					</div>
 

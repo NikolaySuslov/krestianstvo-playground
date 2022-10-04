@@ -10,6 +10,8 @@ Krestianstvo | Playground - is the collection of worlds and experiences, develop
 
 ## About & Documentation
 
+>Read [Documentation](https://docs.krestianstvo.org) wtih interactive examples.  
+
 **[Introduction post](https://dev.to/nikolaysuslov/krestianstvo-sdk-4-implementing-croquet-and-recursive-portals-on-solid-js-54ai)**
 
 ## Develop 
