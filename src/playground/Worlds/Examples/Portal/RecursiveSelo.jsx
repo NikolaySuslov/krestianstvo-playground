@@ -59,6 +59,7 @@ export default function App(props) {
     props.selo.createAction(props.nodeID, "anim", anim)
 
     const [el, setEl] = createSignal(null);
+    const colorI = 18
 
     return (
         <>
@@ -67,7 +68,7 @@ export default function App(props) {
                     transform: `scale(${props.scale}) rotate(${props.angle}deg) translate(${props.move ? props.move : 0}px, -25px)`,
                     width: "fit-content",
                     height: "fit-content",
-                    "background-color": `rgba(${props.color}, ${props.color}, ${props.color}, 0.7)`
+                    "background-color": `rgba(${255 - props.deep*colorI}, ${255 - props.deep*colorI}, ${255 - props.deep*colorI}, 0.7)`
                 }}>
 
                 <Show when={!props.noAvatar}>
@@ -96,7 +97,7 @@ export default function App(props) {
 
                     scale={local.data.properties.scale - 0.1}
                     angle={local.data.properties.angle + 1}
-                    color={(props.color ? props.color : 255) - 20}
+                    // color={(props.color ? props.color : 255) - 20}
                     move={local.data.properties.move}
 
                     deep={props.deep}

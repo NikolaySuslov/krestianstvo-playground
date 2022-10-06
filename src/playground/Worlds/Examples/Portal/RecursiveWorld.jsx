@@ -13,6 +13,7 @@ export default function App(props) {
             type: "App",
             nodeID: props.nodeID,
             properties: {
+                dc: props.parameters ? props.parameters : 10,
                 scale: props.scale ? props.scale : 1,
                 angle: props.angle ? props.angle : 0,
                 color: props.color ? props.color : 0,
@@ -58,14 +59,17 @@ export default function App(props) {
 
     const [el, setEl] = createSignal(null);
 
-    return (props.deep > 10) ? null : (
+    const colorI = 18
+
+    return (props.deep > local.data.properties.dc) ? null : (
         <>
             <div ref={setEl} class="bg-blend-color relative p2 m2 flex-h"
                 style={{
                     transform: `scale(${props.scale}) rotate(${props.angle}deg) translate(${props.move ? props.move : 0}px, -10px)`,
                     width: "fit-content",
                     height: "fit-content",
-                    "background-color": `rgba(${props.color ? props.color : 250}, ${props.color ? props.color : 250}, ${props.color ? props.color : 250}, 0.7)`
+                   // border: "1px solid grey",
+                    "background-color": `rgba(${255 - props.deep*colorI}, ${255 - props.deep*colorI}, ${255 - props.deep*colorI}, 0.7)`
                 }}>
                 <Show when={!props.noAvatar}>
                     <DefaultAvatar
@@ -82,8 +86,8 @@ export default function App(props) {
                     selo={props.selo}
                     scale={local.data.properties.scale - 0.1}
                     angle={local.data.properties.angle }
-                    color={(props.color ? props.color : 255) - 20}
                     move={local.data.properties.move}
+                    //noAvatar={true}
                 />
             </div>
         </>
