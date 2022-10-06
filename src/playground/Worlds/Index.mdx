@@ -1,0 +1,86 @@
+import { Link } from "@solidjs/router"
+import { Selo } from "krestianstvo"
+import worlds from "../Web/Worlds"
+
+import World from "../Web/World"
+
+# Krestianstvo SDK 4 | Playground
+
+<nav>
+    <Link href="/">Home </Link>
+    <Link class="p2" href="/settings">Settings</Link>
+    <Link class="p2" href="https://github.com/NikolaySuslov/krestianstvo-playground">GitHub source code </Link>
+</nav>
+
+<hr />
+
+<div class="p3 grid grid-rows-1 grid-cols-3">
+<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/742885266?h=45918cfab7&title=0&byline=0&portrait=0" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/749401757?h=0a7c6f0a3b&title=0&byline=0&portrait=0" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/745245330?h=a0a4584482&title=0&byline=0&portrait=0" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+</div>
+
+
+## About
+
+**Krestianstvo SDK 4** is the Open Source implementation of the **[Croquet](https://en.wikipedia.org/wiki/Croquet_OS)** application architecture in **Functional Reactive Paradigm**.
+
+Krestianstvo SDK 4 is mainly developed using **[Solid JS](https://www.solidjs.com)** with the prototype in [S.JS](https://github.com/NikolaySuslov/krestianstvo-s.js). The applications built with Krestianstvo SDK 4 are using just Signals, Effects and reactive computations to get the original scene of Croquet's Objects with Message passing. It is minimal and distributed as a standalone ESM JavaScript module to be bundled within any **[Solid JS](https://www.solidjs.com)** or **[Astro](https://astro.build)** web applications.
+
+
+## [Read Documentation](https://docs.krestianstvo.org)
+
+## Playground Worlds
+
+>- All demos are collaborative worlds, just use the generated URL links or QR codes to join from other devices / web browsers 
+>- This page is a world and is collaborative, just open this site in another browser tab
+>- You can insert in any portal's text fields links to the already created worlds, even linking worlds to themselves to make a recursive portals
+>- There is no 404 world, an inexistent world is also a world to start with
+>- No iFrames for portals. All objects in worlds are just pure Solid JS components - Signals and Effects
+
+<div class="grid grid-cols-1 justify-items-center">
+    <div class="raw-span-1 box">
+        <World worlds={worlds} worldName={"demo1"} seloID={props.seloID + "_demo1"} />
+    </div>
+</div>
+
+<div class="p7"/>
+### [Hello world!](/simple)
+### [World with counter and portals](/demo1)
+### [RapierJS world: cross-platform determinism](/rapier)
+### [MultiPixel: Recursive ThreeJS world](/multi)
+### [Pixel: ThreeJS world ready for multipixel](/pixel)
+### [SolidJS Fiber / ThreeJS world](/fiber)
+### [Paint canvas](/painter)
+### [Recursive Selo](/demo3)
+### [Recursive World app in single Selo](/demo2)
+### [Recursive World app in multi-local Selos](/demo4)
+### [Grid 1: world with 1 portal](/grid?p=1)
+### [Grid 4: world with 4 portals](/grid?p=4)
+### [404 world](/errorworld)
+### [Counter object as world](/counter)
+### [Portal example from Docs: Recursive World ](/rworld)
+### [Portal example from Docs: Recursive Selo ](/rselo)
+### [Prototype World on S.js](https://krestianstvo.org/s)
+
+<hr/>
+## Open Source
+
+```js
+npm install krestianstvo --save
+```
+
+Publicly available running reflector servers:  
+- https://time.krestianstvo.org
+- https://time.livecoding.space
+
+The source code: 
+
+* Playground: [GitHub](https://github.com/NikolaySuslov/krestianstvo-playground)
+* Core library on Solid JS: [GitHub](https://github.com/NikolaySuslov/krestianstvo)
+* Prototype on S.js: [GitHub](https://github.com/NikolaySuslov/krestianstvo-s.js)
+* Reflector server: [GitHub](https://github.com/NikolaySuslov/lcs-reflector)
+* Docs site built with Astro: [GitHub](https://github.com/NikolaySuslov/krestianstvo-docs)
+
+<hr/>
+<div class="p4 text-4"><Link href="https://www.krestianstvo.org">Krestianstvo.org</Link> | 2022</div>

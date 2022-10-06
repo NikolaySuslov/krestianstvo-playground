@@ -3,12 +3,14 @@ import solidPlugin from 'vite-plugin-solid';
 import { DOMElements, SVGElements } from "solid-js/web/dist/dev.cjs";
 import Unocss from 'unocss/vite'
 import { presetUno, presetAttributify } from 'unocss'
+import mdx from '@mdx-js/rollup';
+import remarkGfm from 'remark-gfm';
 
 ////DEV MODE
 //import path from 'path'
 ////
 
-export default defineConfig(async (mode) => ({
+export default defineConfig(({
   ////DEV MODE
   // resolve: {
   //   alias: {
@@ -23,6 +25,7 @@ export default defineConfig(async (mode) => ({
   //   }
   //   },
   plugins: [
+    mdx({ jsxImportSource: 'solid-jsx', remarkPlugins: [remarkGfm] }),
     solidPlugin(
       {
         //ssr: false,

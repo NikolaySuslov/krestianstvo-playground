@@ -22,6 +22,10 @@ import { default as emptyWorld } from '../Worlds/EmptyWorld'
 import HomeWorld from "../Worlds/HomeWorld"
 
 import counter from '../Objects/Counter'
+import portal from '../Objects/Portal'
+
+import { default as rselo } from '../Worlds/Examples/Portal/RecursiveSelo'
+import { default as rworld } from '../Worlds/Examples/Portal/RecursiveWorld'
 
 const worlds = {
 
@@ -39,9 +43,13 @@ const worlds = {
     fiber: fiber,
 
     counter: counter,
+    portal: portal,
     simple: simple,
     emptyWorld: emptyWorld,
-    home: HomeWorld
+    home: HomeWorld,
+
+    rselo: rselo,
+    rworld: rworld
 
 }
 
