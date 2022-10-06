@@ -105,7 +105,6 @@ export default function Demo1(props) {
               avatarComponent={Avatar}
             />
           </Show>
-
           <div class="p1">
             <div class="truncate flex">
               <button class={buttonGreen()} onClick={[handleClick, ["createSelo", { app: "demo1", info: true, reflectorHost: props.selo.reflectorHost, deep: props.deep }]]}>New Selo</button>

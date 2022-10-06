@@ -1,6 +1,7 @@
 {
   "name": "krestianstvo-playground",
   "version": "0.1.5",
+  "type": "module",
   "files": [
     "dist"
   ],
@@ -13,10 +14,13 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@mdx-js/rollup": "^2.1.3",
     "@solid-primitives/memo": "1.0.2",
     "@solid-primitives/scheduled": "1.0.2",
     "@solid-primitives/utils": "3.0.2",
     "@unocss/vite": "^0.45.25",
+    "remark-gfm": "^3.0.1",
+    "solid-jsx": "^0.9.1",
     "vite": "^3.1.4",
     "vite-plugin-solid": "2.3.9"
   },
@@ -26,12 +30,12 @@
     "@solid-primitives/mouse": "2.0.2",
     "@solid-primitives/pointer": "0.2.1",
     "@solid-primitives/raf": "2.1.2",
+    "@solidjs/router": "^0.4.3",
     "alea": "^1.0.1",
     "krestianstvo": "^0.1.5",
     "qheap": "^1.4.0",
     "qr-creator": "^1.0.0",
     "socket.io-client": "^4.5.2",
-    "@solidjs/router": "^0.4.3",
     "solid-drei": "^0.0.3",
     "solid-js": "^1.5.7",
     "solid-leva": "^0.0.2",
