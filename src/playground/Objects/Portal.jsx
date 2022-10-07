@@ -142,7 +142,7 @@ export default function SeloPortal(props) {
 
 	const [seloData, params] = splitProps(
 		props,
-		["selo", "seloID", "nodeID"] //"seloID", "deep", "deepCount", "worldsPath"
+		["selo", "seloID", "nodeID", "url"] //"seloID", "deep", "deepCount", "worldsPath"
 	);
 
 	return (

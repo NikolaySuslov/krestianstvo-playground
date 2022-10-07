@@ -3,8 +3,6 @@ import solidPlugin from 'vite-plugin-solid';
 import { DOMElements, SVGElements } from "solid-js/web/dist/dev.cjs";
 import Unocss from 'unocss/vite'
 import { presetUno, presetAttributify } from 'unocss'
-import mdx from '@mdx-js/rollup';
-import remarkGfm from 'remark-gfm';
 
 ////DEV MODE
 //import path from 'path'
@@ -14,10 +12,10 @@ export default defineConfig(({
   ////DEV MODE
   // resolve: {
   //   alias: {
-  //     'krestianstvo': path.resolve(__dirname, './node_modules/krestianstvo/src/index.js'),
+  //     'krestianstvo': path.resolve(__dirname, '../krestianstvo-github/src/index.js'),
   //   }
   // },
-  ///
+  //
   // server: {
   //   fs: {
   //     // Allow serving files from one level up to the project root
@@ -25,10 +23,18 @@ export default defineConfig(({
   //   }
   //   },
   plugins: [
-    mdx({ jsxImportSource: 'solid-jsx', remarkPlugins: [remarkGfm] }),
+    {
+      ...(await import("@mdx-js/rollup")).default({
+        jsxImportSource: "solid-js",
+        jsx: true,
+        providerImportSource: "solid-mdx"
+      }),
+      enforce: "pre"
+    },
     solidPlugin(
       {
         //ssr: false,
+        extensions: [".md", [".mdx", { typescript: true }]],
         solid: {
           moduleName: "solid-js/web",
           generate: "dynamic",
