@@ -1,8 +1,8 @@
 import { Link } from "@solidjs/router"
 import { Selo } from "krestianstvo"
 import worlds from "../Web/Worlds"
+import SeloPortal from "../Objects/Portal"
 
-import World from "../Web/World"
 
 # Krestianstvo SDK 4 | Playground
 
@@ -40,7 +40,7 @@ Krestianstvo SDK 4 is mainly developed using **[Solid JS](https://www.solidjs.co
 
 <div class="grid grid-cols-1 justify-items-center">
     <div class="raw-span-1 box">
-        <World worlds={worlds} worldName={"demo1"} seloID={props.seloID + "_demo1"} />
+        <SeloPortal {...props} nodeID={"home_demo1_" + props.nodeID} url={"demo1"} />
     </div>
 </div>
 

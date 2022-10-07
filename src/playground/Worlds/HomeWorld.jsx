@@ -52,7 +52,7 @@ export default function HomeWorld(props) {
 				</Show>
 
 				<div m2 p2>
-					<Index seloID={props.selo.id} />
+					<Index {...props}/>
 				</div>
 			</div>
 		</>
