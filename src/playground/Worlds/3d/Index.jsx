@@ -240,7 +240,7 @@ function App(props) {
           border: "2px dotted grey",
           width: "fit-content"
         }}>
-        {/* <div flex-col>
+        <div flex-col>
           <div flex>
             <Show when={props.info}>
               <SeloInfo
@@ -249,7 +249,7 @@ function App(props) {
             </Show>
           </div>
           <div ref={setUiEl}></div>
-        </div> */}
+        </div>
 
         <div class="relative p3 m2" ref={setEl} style={{
           border: "1px solid grey",
