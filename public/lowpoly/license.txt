@@ -1,0 +1,11 @@
+Model Information:
+* title:	Low-Poly Male Body
+* source:	https://sketchfab.com/3d-models/low-poly-male-body-ddf11918aa8042cf9f43193f33611f47
+* author:	Tidominer (https://sketchfab.com/tidominer)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Low-Poly Male Body" (https://sketchfab.com/3d-models/low-poly-male-body-ddf11918aa8042cf9f43193f33611f47) by Tidominer (https://sketchfab.com/tidominer) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
