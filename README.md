@@ -11,12 +11,15 @@ Krestianstvo | Playground - is the collection of worlds and experiences, develop
 
 ![image](/public/sdk4.jpg)
 
+
 **Krestianstvo SDK 4** is the Open Source implementation of the **[Croquet](https://en.wikipedia.org/wiki/Croquet_OS)** application architecture in **Functional Reactive Paradigm**.
 
 Krestianstvo SDK 4 is mainly developed using **[Solid JS](https://www.solidjs.com)** with the prototype in [S.JS](https://github.com/NikolaySuslov/krestianstvo-s.js). The applications built with Krestianstvo SDK 4 are using just Signals, Effects and reactive computations to get the original scene of Croquet's Objects with Message passing. It is minimal and distributed as a standalone ESM JavaScript module to be bundled within any **[Solid JS](https://www.solidjs.com)** or **[Astro](https://astro.build)** web applications.
 
 
 ## Playground Worlds
+
+![image](/public/portals3d.jpg)
 
 >- All demos are collaborative worlds, just use the generated URL links or QR codes to join from other devices / web browsers 
 >- The home page is a world and is collaborative, just open it in another browser tab
@@ -26,6 +29,8 @@ Krestianstvo SDK 4 is mainly developed using **[Solid JS](https://www.solidjs.co
 
 ## List of Worlds
 
+### [Portals 3D (direct)](https://play.krestianstvo.org/3d)
+### [Portals 3D (mirror)](https://play.krestianstvo.org/3d?p=mirror0.2)
 ### [Hello world!](https://play.krestianstvo.org/simple)
 ### [World with counter and portals](https://play.krestianstvo.org/demo1)
 ### [RapierJS world: cross-platform determinism](https://play.krestianstvo.org/rapier)
