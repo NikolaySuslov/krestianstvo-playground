@@ -19,7 +19,8 @@ Krestianstvo SDK 4 is mainly developed using **[Solid JS](https://www.solidjs.co
 
 ## Playground Worlds
 
-![image](/public/portals3d.jpg)
+![image](/public/portals3d.jpg)  
+[Video of 3D Portals](https://vimeo.com/768846153)
 
 >- All demos are collaborative worlds, just use the generated URL links or QR codes to join from other devices / web browsers 
 >- The home page is a world and is collaborative, just open it in another browser tab
