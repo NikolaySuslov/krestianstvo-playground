@@ -16,6 +16,7 @@ import multi from '../Worlds/multi/Index'
 import multicamera from '../Worlds/multicamera/Index'
 import grid from '../Worlds/grid/Index'
 import fiber from '../Worlds/fiber/Index'
+import portals3d from '../Worlds/3d/Index'
 
 import { default as simple } from '../Worlds/Simple'
 import { default as emptyWorld } from '../Worlds/EmptyWorld'
@@ -49,7 +50,8 @@ const worlds = {
     home: HomeWorld,
 
     rselo: rselo,
-    rworld: rworld
+    rworld: rworld,
+    "3d": portals3d
 
 }
 
