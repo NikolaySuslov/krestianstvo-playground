@@ -3,9 +3,7 @@ import { useThree, useFrame } from "@krestianstvo/solid-three";
 import { OrbitControls as OrbitControls$1 } from "three-stdlib";
 
 export const OrbitControls = (props) => {
-    const invalidate = useThree(({
-      invalidate: invalidate2
-    }) => invalidate2);
+    const invalidate = useThree(({invalidate: invalidate2}) => invalidate2);
     const defaultCamera = useThree(({
       camera
     }) => camera);
@@ -29,7 +27,7 @@ export const OrbitControls = (props) => {
       let controls = orbitControls();
       if (controls.enabled)
         controls.update();
-    });
+    }, -1);
     createEffect(() => {
       const callback = (e) => {
         var _a;
