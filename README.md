@@ -6,6 +6,10 @@ Krestianstvo | Playground - is the collection of worlds and experiences, develop
 
 **https://play.krestianstvo.org**
 
+Mirror hosting:    
+**https://krestianstvo-playground.glitch.me** (Glitch deployment with own Reflector)   
+**https://xrvr.art** (Vercel deployment)
+
 ## [Read Documentation](https://docs.krestianstvo.org)  
 **[Introduction post](https://dev.to/nikolaysuslov/krestianstvo-sdk-4-implementing-croquet-and-recursive-portals-on-solid-js-54ai)**
 
