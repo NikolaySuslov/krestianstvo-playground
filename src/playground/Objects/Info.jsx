@@ -11,7 +11,7 @@ export default function SeloInfo(props) {
 
     let thisDiv;
 
-    let link = createLinkForSelo(props.selo)
+    let link = createLinkForSelo(props.selo, {p: props.parameters, d: props.deepCount})
 
     onMount(() => {
         createQRCode(thisDiv, link)

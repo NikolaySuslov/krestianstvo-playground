@@ -146,7 +146,7 @@ function App(props) {
 
   let qrDiv;
 
-  let link = createLinkForSelo(props.selo)
+  let link = createLinkForSelo(props.selo, {p: props.parameters, d: props.deepCount})
 
   onMount(() => {
     if (local.data.properties.editMode)
