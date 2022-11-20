@@ -5,16 +5,16 @@ import Unocss from 'unocss/vite'
 import { presetUno, presetAttributify } from 'unocss'
 
 ////DEV MODE
-import path from 'path'
+//import path from 'path'
 ////
 
 export default defineConfig(({
   ////DEV MODE
-  resolve: {
-    alias: {
-      'krestianstvo': path.resolve(__dirname, '../krestianstvo-github/src/index.js'),
-    }
-  },
+  // resolve: {
+  //   alias: {
+  //     'krestianstvo': path.resolve(__dirname, '../krestianstvo-github/src/index.js'),
+  //   }
+  // },
   //
   // server: {
   //   fs: {
