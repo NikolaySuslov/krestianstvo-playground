@@ -17,6 +17,7 @@ import multicamera from '../Worlds/multicamera/Index'
 import grid from '../Worlds/grid/Index'
 import fiber from '../Worlds/fiber/Index'
 import portals3d from '../Worlds/3d/Index'
+import portals3d_mirror from '../Worlds/3d-mirror/Index'
 
 import { default as simple } from '../Worlds/Simple'
 import { default as emptyWorld } from '../Worlds/EmptyWorld'
@@ -51,7 +52,8 @@ const worlds = {
 
     rselo: rselo,
     rworld: rworld,
-    "3d": portals3d
+    "3d": portals3d,
+    "3d-2": portals3d_mirror
 
 }
 
