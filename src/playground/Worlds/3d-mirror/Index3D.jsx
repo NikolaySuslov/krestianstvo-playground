@@ -22,7 +22,6 @@ import AvatarPointer3D from '../../Objects/3D//AvatarPointer3D';
 
 import * as THREE from "three";
 
-import { default as SceneA } from "./SceneA"
 import { default as DiceWorld } from "./DiceWorld"
 
 //import { OrbitControls } from "solid-drei";
@@ -43,14 +42,10 @@ function App(props) {
         paused: true,
         defaultScene: props.defaultScene ? props.defaultScene : "A",
         start: props.parameters?.includes("mirror") ? props.parameters : "direct",
-        mrl: props.parameters?.includes("mirror") ? 3 : 1
+        mrl: 3
       },
       dynamic: [
 
-        {
-          component: "RenderScene",
-          nodeID: "A"
-        },
         {
           component: "DiceWorld",
           nodeID: "DiceWorld"
@@ -100,7 +95,7 @@ function App(props) {
 
 
   const postInitialize = () => {
-    changeScene(["A"])
+    changeScene(["DiceWorld"])
   }
 
 
@@ -217,7 +212,6 @@ function App(props) {
   }
 
   const scenes = {
-    RenderScene: SceneA,
     DiceWorld: DiceWorld
     // RenderScene3: RenderScene3
   }
@@ -246,10 +240,6 @@ function App(props) {
           border: "1px solid grey",
           width: "fit-content"
         }}>
-          <div p1>
-            <button onClick={[changeScene, ["A"]]}>Enter A World</button>
-            <button onClick={[changeScene, ["DiceWorld"]]}>Enter Dice World</button>
-          </div>
           {/* <Show when={!props.noAvatar}>
             <DefaultAvatar
               {...props}

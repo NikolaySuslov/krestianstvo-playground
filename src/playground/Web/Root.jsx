@@ -19,7 +19,7 @@ export default function Root(props) {
 		<>
 			<Routes>
 				<Route path="/" element={
-					<World worlds={worlds} worldName={"home"}/>
+					<World worlds={worlds} worldName={"home"} seloID={"home"}/>
 				} />
 				<Route path="/settings" element={<Settings config={props.config} setConfig={props.setConfig} />} />
 				<Route path="/:world" element={<World worlds={worlds}></World>} />

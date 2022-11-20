@@ -360,6 +360,14 @@ export default function Scene(props) {
   }, props.priority ? props.priority : 1)
 
 
+  createEffect(()=>{
+		console.log("MIR: ", props.start);
+		setTimeout(()=>{
+				props.selo.callAction("wa7", "setProperty", ["rotation", props.start.includes("mirror") ? [0, -Math.PI/2, isNaN(parseFloat(props.start.slice(6))) ? 0.2 : props.start.slice(6)] : [0, -Math.PI/2, 0]])
+		},0)
+	})
+
+
   return (
 
     <scene ref={refScene}>
@@ -413,34 +421,46 @@ export default function Scene(props) {
       <spotLight castShadow position={[3, 5, 3]} intensity={2} color={"blue"} penumbra={1} />
 
       <Window3D
-        selo={props.selo}
-        nodeID={"wb1"}
-        position={[-2.5, 2, 2]}
-        rotation={[0, -Math.PI, 0]}
-        portal={"p1"}
-        portalScene={"A"}
-      >
-      </Window3D>
-
-      <Show when={props.currentSceneOnView().name !== local.data.nodeID}>
-        <Window3D
-          selo={props.selo}
-          nodeID={"wb2"}
-          portalWindow={"wa1"}
-        >
-        </Window3D>
-      </Show>
+				selo={props.selo}
+				nodeID={"wa7"}
+				position={[4, 2, 0]}
+				//rotation={[0, -Math.PI/2, 0]}
+				portal={"pa7"}
+				portalScene={local.data.nodeID}
+			/>
 
 
-      <Portal2D
-        sceneName={local.data.nodeID}
-        destinationScene={"A"}
-        currentSceneOnView={props.currentSceneOnView}
-        destination={"p1"}
-        selo={props.selo}
-        nodeID={"p2"}
-        setPortal={props.setPortal}
-      />
+			<Portal2D
+				sceneName={local.data.nodeID}
+				destinationScene={local.data.nodeID}
+				destination={"pa6"}
+				selo={props.selo}
+				nodeID={"pa7"}
+				setPortal={props.setPortal}
+				currentSceneOnView={props.currentSceneOnView}
+			/>
+
+
+
+			<Window3D
+				selo={props.selo}
+				nodeID={"wa6"}
+				position={[-4, 2, 0]}
+				rotation={[0, Math.PI/2, 0]}
+				portal={"pa6"}
+				portalScene={local.data.nodeID}
+			/>
+
+
+			<Portal2D
+				sceneName={local.data.nodeID}
+				destinationScene={local.data.nodeID}
+				destination={"pa7"}
+				selo={props.selo}
+				nodeID={"pa6"}
+				setPortal={props.setPortal}
+				currentSceneOnView={props.currentSceneOnView}
+			/> 
 
     </scene>
   )

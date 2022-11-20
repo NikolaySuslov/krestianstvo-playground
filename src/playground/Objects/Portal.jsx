@@ -127,7 +127,7 @@ export default function SeloPortal(props) {
 		if (el) {
 			let selo = getSeloByID(el.seloID)
 			if (selo) {
-				let url = createLinkForSelo(selo)
+				let url = createLinkForSelo(selo, {p: el.parameters, d: el.deepCount })
 				setLocal("data", "properties", "url", url)
 			}
 
@@ -209,19 +209,21 @@ export default function SeloPortal(props) {
 					<For each={local.data.dynamicSelo}>
 						{(item) =>
 							<div>
-								<Selo
-									{...params}
-									nodeID={item.app}
-									//app={item.app}
-									seloID={item.seloID}
-									info={item.info}
-									reflectorHost={item.reflectorHost}
-									deep={collectParentSelos(props.selo.id).includes(item.seloID) ? props.deep : collectParentSelos(item.seloID).includes(props.selo.id) ? props.deep - 1 : 0}
-									deepCount={item.deepCount}
-									parentSeloID={props.selo.id}
-									parameters={item.parameters}
-									component={props.worlds ? props.worlds[item.app] : props.fallbackWorld}
-								/>
+								<Show when={props.selo.storeVT.stateSynced}>
+									<Selo
+										{...params}
+										nodeID={item.app}
+										//app={item.app}
+										seloID={item.seloID}
+										info={item.info}
+										reflectorHost={item.reflectorHost}
+										deep={collectParentSelos(props.selo.id).includes(item.seloID) ? props.deep : collectParentSelos(item.seloID).includes(props.selo.id) ? props.deep - 1 : 0}
+										deepCount={item.deepCount}
+										parentSeloID={props.selo.id}
+										parameters={item.parameters}
+										component={props.worlds ? props.worlds[item.app] : props.fallbackWorld}
+									/>
+								</Show>
 							</div>
 						}
 					</For>
