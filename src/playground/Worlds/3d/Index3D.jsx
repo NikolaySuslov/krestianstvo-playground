@@ -41,7 +41,9 @@ function App(props) {
         initialized: false,
         ticking: false,
         paused: true,
-        defaultScene: props.defaultScene ? props.defaultScene : "A"
+        defaultScene: props.defaultScene ? props.defaultScene : "A",
+        start: props.parameters?.includes("mirror") ? props.parameters : "direct",
+        mrl: props.parameters?.includes("mirror") ? 3 : 1
       },
       dynamic: [
 
@@ -169,10 +171,9 @@ function App(props) {
 
   function RenderMain(props) {
 
-    let mrl = props.start.includes("mirror") ? 5 : 3
 
     useThree((state) => {
-      console.log("State: ", state)
+      //console.log("State: ", state)
 
       if (state) {
         let renderer = state.gl
@@ -197,7 +198,7 @@ function App(props) {
           camera.matrixWorld,
           camera.matrixWorldInverse,
           camera.projectionMatrix,
-          mrl,
+          local.data.properties.mrl,
           0,
           null
         )
@@ -283,7 +284,7 @@ function App(props) {
                       portals={portals}
                       setPortal={setPortal}
                       rapier={props.rapier}
-                      start={props.start}
+                      start={local.data.properties.start}
                     />
                   }
                 </For>

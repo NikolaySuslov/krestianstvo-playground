@@ -120,7 +120,7 @@ export default function Portal2D(props) {
               })
           }))
 
-        console.log("Dest: ", props.destination)
+       // console.log("Dest: ", props.destination)
         box.geometry.computeBoundingBox();
         const size = new THREE.Vector3();
         box.geometry.boundingBox.getSize(size);

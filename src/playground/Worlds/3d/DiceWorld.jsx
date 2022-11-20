@@ -340,7 +340,7 @@ export default function Scene(props) {
 
 
   useThree((state) => {
-    console.log("State: ", state)
+    //console.log("State: ", state)
 
     if (state && refScene) {
       //state.gl.setClearColor("black");

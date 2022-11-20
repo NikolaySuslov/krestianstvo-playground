@@ -209,6 +209,7 @@ export default function SeloPortal(props) {
 					<For each={local.data.dynamicSelo}>
 						{(item) =>
 							<div>
+								 <Show when={props.selo.storeVT.stateSynced}>
 								<Selo
 									{...params}
 									nodeID={item.app}
@@ -222,6 +223,7 @@ export default function SeloPortal(props) {
 									parameters={item.parameters}
 									component={props.worlds ? props.worlds[item.app] : props.fallbackWorld}
 								/>
+								</Show>
 							</div>
 						}
 					</For>

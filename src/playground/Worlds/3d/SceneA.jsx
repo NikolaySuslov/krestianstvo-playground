@@ -13,7 +13,7 @@ import Window3D from "../../Objects/3D/Window3D"
 import Portal2D from "../../Objects/3D/Portal2D"
 import AvatarReplica from "../../Objects/3D/AvatarReplica";
 import { useGLTF } from "solid-drei";
-import { Switch } from "solid-js";
+import { batch, createEffect, onMount, Switch } from "solid-js";
 
 export default function Scene(props) {
 
@@ -30,8 +30,8 @@ export default function Scene(props) {
 				paused: false,
 				angle: [0, 0, 0],
 				color: 'green',
-				costumeGeometry: props.costumeGeometry ? props.costumeGeometry : "SphereGeometry",
-				start: props.start ? props.start : "direct"
+				costumeGeometry: props.costumeGeometry ? props.costumeGeometry : "SphereGeometry"
+				//start: props.start ? props.start : "direct"
 			},
 			avatars: [],
 			dynamic: [
@@ -47,7 +47,7 @@ export default function Scene(props) {
 		// let cv = box.__r3f.root.getState().gl.domElement;
 
 		useThree((state) => {
-			console.log("State: ", box)
+			//console.log("State: ", box)
 			if (state && box) {
 				box.name = "BOX"
 
@@ -123,7 +123,7 @@ export default function Scene(props) {
 
 
 	useThree((state) => {
-		console.log("State: ", state)
+		//console.log("State: ", state)
 
 		if (state && refScene) {
 			refScene.name = props.sceneName
@@ -169,8 +169,14 @@ export default function Scene(props) {
 		//   <meshStandardMaterial color={props.color} />
 		// </mesh>
 	}
-
-
+	
+	createEffect(()=>{
+		console.log("MIR: ", props.start);
+		setTimeout(()=>{
+				props.selo.callAction("wa1", "setProperty", ["rotation", props.start.includes("mirror") ? [0, 0, isNaN(parseFloat(props.start.slice(6))) ? 0.2 : props.start.slice(6)] : [0, 0, 0]])
+				props.selo.callAction("wa1", "setProperty", ["position", props.start.includes("mirror") ? [-2.5, 2, -1.5] : [-2.5, 2, 2.05]])
+		},0)
+	})
 
 	return (
 		<scene ref={refScene}>
@@ -216,35 +222,13 @@ export default function Scene(props) {
 				}
 			</For>
 
-			<Switch>
-				<Match when={local.data.properties.start == "direct"}>
-
-					<Window3D
+			<Window3D
 						selo={props.selo}
 						nodeID={"wa1"}
-						position={[-2.5, 2, 2.05]}
-						rotation={[0, 0, 0]}
 						portal={"p2"}
 						portalScene={"DiceWorld"}
 					>
-					</Window3D>
-
-				</Match>
-
-				<Match when={local.data.properties.start.includes("mirror")}>
-
-					<Window3D
-						selo={props.selo}
-						nodeID={"wa1"}
-						position={[-2.5, 2, -1.5]}
-						rotation={[0, 0, isNaN(parseFloat(local.data.properties.start.slice(-3))) ? 0.2 : local.data.properties.start.slice(-3)]}
-						portal={"p2"}
-						portalScene={"DiceWorld"}
-					>
-					</Window3D>
-
-				</Match>
-			</Switch>
+			</Window3D>
 
 			<Show when={props.currentSceneOnView().name !== local.data.nodeID}>
 				<Window3D

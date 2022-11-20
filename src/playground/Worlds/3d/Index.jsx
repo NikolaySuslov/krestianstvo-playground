@@ -27,7 +27,6 @@ import { CoefficientCombineRule, ColliderDesc, RigidBody, RigidBodyDesc, World, 
 
 const [rap, srap] = createSignal(null)
 
-
 const rapier = async () => {
   await RAPIER.init().then(() => {
     console.log("Init RAPIER: ", RAPIER);
@@ -39,11 +38,7 @@ const rapier = async () => {
 
 rapier()
 
-
-
 function App(props) {
-
-
 
   const path = import.meta.url// + props.nodeID;
 
@@ -56,8 +51,7 @@ function App(props) {
         color: 'green',
         ticking: true,
         paused: false,
-        angle: [0, 0, 0],
-        start: props.parameters && props.parameters.includes("mirror") ? props.parameters : "direct"
+        angle: [0, 0, 0]
       },
       dynamic: [
       ],
@@ -268,7 +262,9 @@ function App(props) {
           <div style={{
             position: "relative"
           }}>
-            <Physics selo={props.selo} nodeID={genID("Rapier" + props.nodeID, path)} start={local.data.properties.start} />
+            <Physics selo={props.selo} nodeID={genID("Rapier" + props.nodeID, path)} 
+            parameters={props.parameters}
+             />
           </div>
         </div>
       </div>

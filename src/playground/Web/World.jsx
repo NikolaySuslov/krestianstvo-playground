@@ -19,8 +19,9 @@ export default function World(props) {
     const pathname = createMemo(() => location.pathname);
 
     let reflectorHost = searchParams?.r ? searchParams?.r : null
-    let seloID = props.seloID ? props.seloID : searchParams?.k ? searchParams?.k : generateURL(pathname, worldName, reflectorHost)
     let parameters = searchParams?.p ? searchParams?.p : null
+    let seloID = props.seloID ? props.seloID : searchParams?.k ? searchParams?.k : generateURL(pathname, worldName, reflectorHost, parameters)
+
     const worldComp = props.worlds[worldName]
    
     return (
