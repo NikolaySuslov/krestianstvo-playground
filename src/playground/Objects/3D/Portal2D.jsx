@@ -143,10 +143,10 @@ export default function Portal2D(props) {
 
       if (state && portal) {
         update(state.scene)
-        if (portal.parent.name !== props.currentSceneOnView().name) {
+        if (portal.parent.name !== props.currentSceneOnView()?.name) {
           plane.material.visible = true
         } else
-          if (portal.parent.name == props.currentSceneOnView().name && props.destinationScene !== portal.parent.name) {//portal.parent.name !== props.sceneName || //props.currentSceneOnView()
+          if (portal.parent.name == props.currentSceneOnView()?.name && props.destinationScene !== portal.parent.name) {//portal.parent.name !== props.sceneName || //props.currentSceneOnView()
             plane.material.visible = false
           }
       }
