@@ -105,14 +105,14 @@ function App(props) {
         />
 
         {/* Recursive World */}
-        {/* <Show when={props.selo.storeVT.moniker_}> */}
+        <Show when={props.selo.storeVT.moniker_}>
           <App
             nodeID={props.nodeID}
             deep={props.deep + 1}
             selo={props.selo}
             cameraCount={props.cameraCount}
           />
-        {/* </Show> */}
+        </Show>
 
       </div>
     </>
