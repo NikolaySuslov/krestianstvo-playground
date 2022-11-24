@@ -4,39 +4,34 @@ Copyright (c) 2022 Nikolay Suslov and the Krestianstvo.org project contributors.
 (https://github.com/NikolaySuslov/krestianstvo/blob/master/LICENSE.md)
 */
 
-
-import { createSignal, onMount, onCleanup, Show, lazy, mergeProps, createEffect, untrack, createResource, createRoot } from 'solid-js';
-import { createLocalStore, Selo, createQRCode, getRandomColor, genID } from 'krestianstvo'
+import { createSignal, onMount, onCleanup, Show, lazy, createMemo, createEffect, createRoot } from 'solid-js';
+import { produce, createStore } from "solid-js/store";
+import { createLocalStore, Selo, createQRCode, getRandomColor } from 'krestianstvo'
+import Avatar from "../../Objects/Avatar"
+import { v4 as uuidv4 } from 'uuid';
 
 import DefaultAvatar from "../../Objects/DefaultAvatar"
 import SeloInfo from "../../Objects/Info"
 
-import { v4 as uuidv4 } from 'uuid';
-
 import { Canvas, useThree, useFrame } from "@krestianstvo/solid-three";
-import { OrbitControls } from "solid-drei";
-//import { Vector3 } from "three"
-//import { WebGLRenderer } from "three/src/renderers/WebGLRenderer";
 
-import Space from "./Index3D"
-import RAPIER from '@dimforge/rapier3d-compat';
-import { CoefficientCombineRule, ColliderDesc, RigidBody, RigidBodyDesc, World, EventQueue, Vector3 } from '@dimforge/rapier3d-compat';
+import { OrbitControls } from "../../Objects/Fiber/OrbitControls"
 
-// const phys = {
-// }
+import { recursivePortalRender } from '../../Objects/3D/PortalGL';
+import AvatarPointer3D from '../../Objects/3D//AvatarPointer3D';
 
-const [rap, srap] = createSignal(null)
+import * as THREE from "three";
 
-const rapier = async () => {
-  await RAPIER.init().then(() => {
-    console.log("Init RAPIER: ", RAPIER);
+//import { default as SceneA } from "./SceneA"
+import { default as DiceWorld } from "./DiceWorld"
 
-    srap(true)
+//import { OrbitControls } from "solid-drei";
+// import { WebGLRenderer } from "three/src/renderers/WebGLRenderer";
 
-  })
-}
+import RapierWorld from "../../Objects/Rapier/RapierWorld"
+import { loadRapierLib } from "../../Objects/Rapier/RapierLib"
 
-rapier()
+const rapierLoad = createRoot(() => { return loadRapierLib() })
 
 function App(props) {
 
@@ -48,44 +43,72 @@ function App(props) {
       nodeID: props.nodeID,
       properties: {
         initialized: false,
-        color: 'green',
-        ticking: true,
-        paused: false,
-        angle: [0, 0, 0]
+        ticking: false,
+        paused: true,
+        defaultScene: props.defaultScene ? props.defaultScene : "A",
+        start: props.parameters?.includes("mirror") ? props.parameters : "direct",
+        mrl: 3
       },
       dynamic: [
+
+        // {
+        //   component: "RenderScene",
+        //   nodeID: "A",
+        //   portalSceneName: "DiceWorld"
+        // },
+        {
+          component: "DiceWorld",
+          nodeID: "DiceWorld"
+          //portalSceneName: "DiceWorld"
+        }
+        // {
+        //   component: "RenderScene3",
+        //   nodeID: "C"
+        // }
+
       ],
       dynamicSelo: [
-
-      ],
-      rapierWorldState: []
+      ]
     }
-
-
   }, props)
 
+  const [currentScene, setCurrentScene] = createSignal(null)
+  const [current, setCurrent] = createSignal(local.data.properties.defaultScene)
+  const [portals, setPortal] = createStore([]);
+
+
+
+  const portalMeshGroup = new THREE.Group();
+  portalMeshGroup.matrixAutoUpdate = false;
+
+  createEffect(() => {
+    let portalMeshes = [];
+
+    portals.forEach(el => {
+      el.mesh.userData.sceneName = el.sceneName
+      el.mesh.userData.destinationName = el.destinationName
+      el.mesh.userData.destinationScene = el.destinationScene
+      portalMeshes.push(el.mesh)
+
+    })
+
+    portalMeshGroup.children = portalMeshes
+
+  })
+
+  let renderPortals = true;
 
   onCleanup(() => {
   });
 
+  const initialize = () => {
+  }
 
-
-  //const [phys] = createResource(rapier);
 
   const postInitialize = () => {
-    initRapier()
+    changeScene(["DiceWorld"])
   }
 
-  const initialize = () => {
-
-    //conosle.log(Initialize)
-
-  }
-
-
-  const rotate = () => {
-    setLocal("data", "properties", "angle", (a) => { return [a[0], a[1] + 0.1, a[2]] })
-  }
 
   const step = (tick) => {
 
@@ -94,123 +117,51 @@ function App(props) {
     }
   }
 
-  const setRandomColor = () => {
 
-    let newColor = getRandomColor(props.selo)
-    setLocal("data", "properties", "color", newColor);
+  const changeScene = (data) => {
+    let sceneName = data[0]
+    console.log("Change to: ", sceneName);
 
-  }
+    setCurrent(sceneName);
 
-  props.selo.createAction(props.nodeID, "postInitialize", postInitialize)
-  props.selo.createAction(props.nodeID, "initialize", initialize)
-  props.selo.createAction(props.nodeID, "step", step)
-  props.selo.createAction(props.nodeID, "setRandomColor", setRandomColor)
-
-
-
-  onMount(() => {
-
-    console.log("RAPIER: ", RAPIER)
-
-  })
-
-  function Box(props) {
-    let box;
-
-    // useThree((state)=>{
-    //   console.log("State: ",box)
-    //  })
-    // useFrame(()=>{
+    // props.selo.sendExtMsg({ msg: "avatarEnter", id: sceneName, params: [props.selo.storeVT.moniker_] })
+    // local.data.dynamic.forEach(el=>{
+    //   if(el.nodeID !== sceneName)
+    //     props.selo.sendExtMsg({ msg: "avatarLeave", id: el.nodeID, params: [props.selo.storeVT.moniker_] })
     // })
 
 
-    const handleBoxClick = () => {
-      props.selo.sendExtMsg({ msg: "setRandomColor", id: props.nodeID, params: [] })
-    }
+    // setLocal(
+    //   produce((s) => {
+    //     s.data.dynamic.forEach(el=>{
+    //       el.sceneName == sceneName ?
+    //         el.current = true : el.current = false
+    //     })
 
-    return (
-      <mesh position={[-1, 0.5, 0]} ref={box} castShadow onClick={handleBoxClick}>
-        <boxBufferGeometry />
-        <meshStandardMaterial color={props.color} />
-      </mesh>
-    )
-    //return (<perspectiveCamera position = {[2, 2, 2]} rotation={[-45, 0, 0]} />)
-  }
-
-
-  const [resume, setResume] = createSignal(false);
-  const [rapierData, setRapierData] = createSignal({});
-
-  const initRapier = () => {
-    //    const rap = phys()
-
-    console.log("Init Rapier world!")
-    const events = new EventQueue(true)
-
-    const obj = {}
-    const gravity = new Vector3(0.0, -9.81, 0.0);
-
-    if (local.data.rapierWorldState.length == 0) {
-      const world = new World(gravity)
-      Object.assign(obj, {
-        rapier: RAPIER,
-        world: world,
-        events: events,
-        restored: false
-        //physicsWorld: physicsWorld
-      })
-      console.log("First Init physics: ", obj.world)
-
-      setResume(true)
-      setRapierData(obj)
-    } else {
-
-
-
-      const world = World.restoreSnapshot(local.data.rapierWorldState)
-      Object.assign(obj, {
-        rapier: RAPIER,
-        world: world,
-        events: events,
-        restored: true
-        //physicsWorld: physicsWorld
-      })
-
-
-
-      console.log("World state:", local.data.rapierWorldState)
-      console.log("RESTORE from snapshot physics: ", obj.world)
-
-      setResume(true)
-      setRapierData(obj)
-    }
-
-
-    // setResume(true)
-    // setRapierData(obj)
-
-    props.selo.setStoreVT("rapierWorld", obj.world)//rapierData().world)
+    //   }))
 
   }
 
+  props.selo.createAction(props.nodeID, "initialize", initialize)
+  props.selo.createAction(props.nodeID, "step", step)
+  props.selo.createAction(props.nodeID, "postInitialize", postInitialize)
+  //props.selo.createAction(props.nodeID, "changeScene", changeScene)
 
-  function Physics(props) {
 
-    return (<>
-      {/* <Show when={props.selo.storeVT.stateSynced == true && resume() == true && rapierData().rapier}>  */}
-      <Space {...props} rapier={rapierData()} />
-      {/* </Show>  */}
-    </>)
+  onMount(() => {
+  })
 
-  }
 
   function MyCameraReactsToStateChanges(props) {
-    let pos = props.pos
-    useFrame(state => {
-      //console.log("State: ", state, 'pos: ', pos)
-      // state.camera.lerp({ x, y, z }, 0.1)
-      // state.camera.lookAt(0, 0, 0)
-    })
+    // useFrame(state => {
+    // })
+
+    return (
+      <perspectiveCamera
+        {...props}
+        nearDistance={0.005}
+        position={props.position}></perspectiveCamera>
+    )
   }
 
 
@@ -219,16 +170,76 @@ function App(props) {
   }
 
   function handleClick(msg) {
-    props.selo.sendExtMsg({ msg: msg, id: props.nodeID })
+    props.selo.sendExtMsg({ msg: msg[0], id: props.nodeID, params: [msg[1]] })
+  }
+
+
+
+  function RenderMain(props) {
+
+
+    useThree((state) => {
+      //console.log("State: ", state)
+
+      if (state) {
+        let renderer = state.gl
+        renderer.outputEncoding = THREE.sRGBEncoding;
+        renderer.autoClear = false;
+        renderer.info.autoReset = false;
+      }
+    })
+
+    useFrame((state) => {
+
+      const { gl, scene, camera, mouse } = state
+      gl.clear()
+
+      if (renderPortals && currentScene()) {
+        recursivePortalRender(
+          gl,
+          camera,
+          currentScene(),
+          portalMeshGroup,
+          portals,
+          camera.matrixWorld,
+          camera.matrixWorldInverse,
+          camera.projectionMatrix,
+          local.data.properties.mrl,
+          0,
+          null
+        )
+      }
+
+      // gl.render(scene, camera)
+    }, props.priority ? props.priority : 1)
+
   }
 
   const [el, setEl] = createSignal(null);
-
   const [uiEl, setUiEl] = createSignal(null);
+
+  function handlePortalClick(e) {
+    console.log(e)
+  }
+
+  const diceWorldComponent = (props) => {
+    return <RapierWorld
+      {...props}
+      selo={props.selo}
+      nodeID={props.nodeID + "_rapier_"}
+      scene={DiceWorld}
+    />
+  }
+
+  const scenes = {
+    //RenderScene: SceneA,
+    DiceWorld: diceWorldComponent
+  }
+
+  //[handleClick, ["changeScene", "C"]]
 
   return (
     <>
-
       <div class="bg-blend-color relative flex h-full p1 m2"
         style={{
           border: "2px dotted grey",
@@ -249,26 +260,62 @@ function App(props) {
           border: "1px solid grey",
           width: "fit-content"
         }}>
-
+          <div p1>
+            <button onClick={[changeScene, ["A"]]}>Enter A World</button>
+            <button onClick={[changeScene, ["DiceWorld"]]}>Enter Dice World</button>
+          </div>
           {/* <Show when={!props.noAvatar}>
-          <DefaultAvatar
-            {...props}
-            el={el}
-            uiEl={uiEl}
-           // avatarComponent={Avatar}
-          />
+            <DefaultAvatar
+              {...props}
+              el={el}
+              avatarComponent={Avatar}
+            />
           </Show> */}
 
           <div style={{
             position: "relative"
           }}>
-            <Physics selo={props.selo} nodeID={genID("Rapier" + props.nodeID, path)} 
-            parameters={props.parameters}
-             />
+            <span>{rapierLoad.loading && "Loading Rapier Engine..."}</span>
+
+            <Canvas
+              camera={{ position: [-5, 4.5, 7] }}
+              height={"480px"}
+              width={"640px"}
+              shadows
+            >
+              {/* <MyCameraReactsToStateChanges position={[0, 4, 8]}> */}
+              {/* <perspectiveCamera position={[0, 3, 4]}></perspectiveCamera> */}
+
+              <For each={local.data.dynamic}>
+                {(item) =>
+                  <Dynamic
+                    component={scenes[item.component]}
+                    nodeID={item.nodeID}
+                    sceneName={item.nodeID}
+                    current={current() == item.nodeID}
+                    set={setCurrentScene}
+                    currentSceneOnView={currentScene}
+                    selo={props.selo}
+                    portals={portals}
+                    setPortal={setPortal}
+                    rapier={props.rapier}
+                    start={local.data.properties.start}
+                    portalSceneName = {item.portalSceneName}
+                  />
+                }
+              </For>
+
+              <RenderMain {...props}></RenderMain>
+
+              <OrbitControls ref={orbitRef} minPolarAngle={0} maxPolarAngle={Math.PI / 2.1} enableZoom={false} makeDefault={true} />
+
+            </Canvas>
+
           </div>
         </div>
       </div>
     </>
   )
 }
+
 export default App;

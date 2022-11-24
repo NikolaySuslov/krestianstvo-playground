@@ -18,13 +18,18 @@ import { CoefficientCombineRule, ColliderDesc, RigidBody, RigidBodyDesc, World, 
 
 //const cube = useGLTF('/dice.glb')
 
+import {animateScene} from "../../Objects/Rapier/RapierLib"
+
+
 function App(props) {
 
  // const cube = props.selo.resources
 
   const path = import.meta.url// + props.nodeID;
 
-  let boxPositionProto = [-2, 5, 0]
+
+
+  let boxPositionProto = [props.x ? props.x : -2, 5, 0]
   let boxRotationProto = [0.5, 0, 0, 1]
 
   const initPhysics = () => {
@@ -83,8 +88,8 @@ function App(props) {
   onCleanup(() => {
   });
 
+  //const [ready, setReady] = createSignal(null)
 
-  const [ph, setPh] = createStore({})
 
   const postInitialize = () => {
 
@@ -99,11 +104,11 @@ function App(props) {
     setLocal("data", "properties", "boxPosition", [position.x, position.y, position.z])
     setLocal("data", "properties", "boxRotation", [rotation.x, rotation.y, rotation.z, rotation.w])
 
+    //setReady(true)
+
     if (props.rapier.restored) {
       doRapierWorldStep()
-
     }
-
   }
 
 
@@ -126,31 +131,14 @@ function App(props) {
     }
   }
 
-  const [m, sm] = createSignal(0)
+ 
+  const [missedSteps, setMissedSteps] = createSignal(0)
 
   const animate = () => {
 
-   // setLocal("data", "properties", "test", c => c + 1)
-
-    if (!props.rapier.world) {
-      console.log("NO WORLD!!")
-      sm((c) => c + 1)
-    }
-
-    if (!local.data.properties.paused && props.rapier.world) {
-      //move()
-      if (m() > 0) {
-        console.log("Missed steps: ", m())
-        for (let i = 0; i < m(); i++) {
-          doRapierWorldStep()
-        }
-        sm(0)
-
-      }
-      doRapierWorldStep()
-    }
-
+    animateScene(props, local, doRapierWorldStep, missedSteps, setMissedSteps)
     props.selo.future(props.nodeID, "animate", 0.05)
+
   }
 
   const moveCube = () => {
@@ -162,8 +150,6 @@ function App(props) {
   }
 
 
-
-
   const setKinematicTranslation = (data) => {
 
     // let newPos = new Vector3(data[0], data[1], data[2])
@@ -172,7 +158,7 @@ function App(props) {
   }
 
   const doRapierWorldStep = () => {
-    //  console.log("Time: ", props.selo.storeNode.tick)
+     //console.log("Time: ", props.selo.storeNode.tick)
 
     props.rapier.world.step(props.rapier.events)
 
@@ -182,8 +168,8 @@ function App(props) {
       let position = b.translation();
       let rotation = b.rotation();
 
-      // console.log("Pos: ", position)
-      // console.log("Rot: ", rotation)
+       //console.log("Pos: ", position)
+       //console.log("Rot: ", rotation)
 
       props.selo.future(props.nodeID, "changeBoxPosition", 0, [position.x, position.y, position.z])
       props.selo.future(props.nodeID, "changeBoxRotation", 0, [rotation.x, rotation.y, rotation.z, rotation.w])
@@ -262,7 +248,7 @@ function App(props) {
     //   console.log("State: ",box)
     //  })
     useFrame(() => {
-      if (props.rapier.world) {
+      if (props.rapier.world && props.qRotation) {
         let rot = new Quaternion(...props.qRotation)
         if(box)
           box.setRotationFromQuaternion(rot)
@@ -319,52 +305,10 @@ function App(props) {
     props.selo.sendExtMsg({ msg: msg, id: props.nodeID })
   }
 
-  const [el, setEl] = createSignal(null);
-
-  const [uiEl, setUiEl] = createSignal(null);
-
   return (
     <>
 
-      <div class="bg-blend-color relative flex h-full p1 m2"
-        style={{
-          border: "2px dotted grey",
-          width: "fit-content"
-        }}>
-        {/* <div flex-col>
-          <div flex>
-            <Show when={props.info}>
-              <SeloInfo
-                {...props}
-              />
-            </Show>
-          </div>
-          <div ref={setUiEl}></div>
-        </div> */}
-
-        <div class="relative p3 m2" ref={setEl} style={{
-          border: "1px solid grey",
-          width: "fit-content"
-        }}>
-
-          {/* <DefaultAvatar
-            {...props}
-            el={el}
-          //avatarComponent={Avatar}
-          /> */}
-
-          <div style={{
-            position: "relative"
-          }}>
-            {/* <p text-7>{local.data.properties.test}</p> */}
-
-            {/* <Suspense> */}
-            <Canvas
-              camera={{ position: [2, 2, 6] }}
-              height={"400px"}
-              width={"400px"}
-              shadows>
-
+  <scene>
               <color attach="backgroundColor" r={1} g={0} b={0} />
               <RapierWorld world={props.rapier.world} />
               <MyCameraReactsToStateChanges pos={[0, 0, 0]} />
@@ -391,11 +335,8 @@ function App(props) {
               <spotLight castShadow position={[3, 5, 3]} intensity={2} color={"blue"} penumbra={1} />
 
               <OrbitControls />
-            </Canvas>
-            {/* </Suspense> */}
-          </div>
-        </div>
-      </div>
+              </scene>
+
     </>
   )
 }

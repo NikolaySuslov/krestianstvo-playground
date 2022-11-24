@@ -89,7 +89,7 @@ export default function App(props) {
                 </div>
 
                 <br/>
-                <Show when={props.selo.storeVT.stateSynced}>
+                <Show when={props.selo.storeVT.stateSynced  && props.selo.storeVT.moniker_}>
                 <Selo
                     seloID={props.selo.id}
                     nodeID={"rselo"}
