@@ -1,6 +1,6 @@
 {
   "name": "krestianstvo-playground",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "type": "module",
   "files": [
     "dist"
@@ -31,7 +31,7 @@
     "@solid-primitives/raf": "2.1.4",
     "@solidjs/router": "^0.5.0",
     "alea": "^1.0.1",
-    "krestianstvo": "^0.1.6",
+    "krestianstvo": "^0.1.7",
     "qheap": "^1.4.0",
     "qr-creator": "^1.0.0",
     "socket.io-client": "^4.5.3",
