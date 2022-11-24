@@ -209,7 +209,7 @@ export default function SeloPortal(props) {
 					<For each={local.data.dynamicSelo}>
 						{(item) =>
 							<div>
-								<Show when={props.selo.storeVT.stateSynced}>
+								<Show when={props.selo.storeVT.stateSynced && props.selo.storeVT.moniker_}>
 									<Selo
 										{...params}
 										nodeID={item.app}

@@ -201,7 +201,7 @@ export default function Demo3(props) {
 
 
           {/* Recursive Selo */}
-          <Show when={props.selo.storeVT.stateSynced}>
+          <Show when={props.selo.storeVT.stateSynced && props.selo.storeVT.moniker_}>
             <Selo
               seloID={props.selo.id}
               nodeID={"demo3"}
@@ -213,6 +213,7 @@ export default function Demo3(props) {
               deepCount={local.data.properties.dc}
               reflectorHost={props.selo.reflectorHost}
               parameters={local.data.properties.dc}
+              worlds={props.worlds}
               resources={props.selo.resources}
             />
           </Show>

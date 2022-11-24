@@ -14,6 +14,7 @@ import Portal2D from "../../Objects/3D/Portal2D"
 import AvatarReplica from "../../Objects/3D/AvatarReplica";
 import { useGLTF } from "solid-drei";
 import { batch, createEffect, onMount, Switch } from "solid-js";
+import { randomCostume } from '../../Objects/Fiber/Utils';
 
 export default function Scene(props) {
 
@@ -30,7 +31,8 @@ export default function Scene(props) {
 				paused: false,
 				angle: [0, 0, 0],
 				color: 'green',
-				costumeGeometry: props.costumeGeometry ? props.costumeGeometry : "SphereGeometry"
+				costumeGeometry: props.costumeGeometry ? props.costumeGeometry : "SphereGeometry",
+				portalSceneName: props.portalSceneName ? props.portalSceneName : props.nodeID
 				//start: props.start ? props.start : "direct"
 			},
 			avatars: [],
@@ -72,7 +74,7 @@ export default function Scene(props) {
 
 
 	const initialize = () => {
-		randomCostume()
+		randomCostume(props, setLocal)
 	}
 
 
@@ -95,19 +97,12 @@ export default function Scene(props) {
 		}
 	}
 
-	const randomCostume = () => {
-		const geometries = ["DodecahedronGeometry", "IcosahedronGeometry", "OctahedronGeometry", "TetrahedronGeometry", "SphereGeometry", "BoxGeometry"];
 
-		const random = Math.floor(props.selo.random() * geometries.length);
-		console.log(random, geometries[random]);
-		setLocal("data", "properties", "costumeGeometry", geometries[random])// geometries[random]);
-
-	}
 
 	props.selo.createAction(props.nodeID, "initialize", initialize)
 	props.selo.createAction(props.nodeID, "step", step)
 	props.selo.createAction(props.nodeID, "setRandomColor", setRandomColor)
-	props.selo.createAction(props.nodeID, "randomCostume", randomCostume)
+	//props.selo.createAction(props.nodeID, "randomCostume", randomCostume)
 
 	// props.selo.createAction(props.nodeID, "avatarEnter", avatarEnter)
 	// props.selo.createAction(props.nodeID, "avatarLeave", avatarLeave)
@@ -169,13 +164,13 @@ export default function Scene(props) {
 		//   <meshStandardMaterial color={props.color} />
 		// </mesh>
 	}
-	
-	createEffect(()=>{
+
+	createEffect(() => {
 		console.log("MIR: ", props.start);
-		setTimeout(()=>{
-				props.selo.callAction("wa1", "setProperty", ["rotation", props.start.includes("mirror") ? [0, 0, isNaN(parseFloat(props.start.slice(6))) ? 0.2 : props.start.slice(6)] : [0, 0, 0]])
-				props.selo.callAction("wa1", "setProperty", ["position", props.start.includes("mirror") ? [-2.5, 2, -1.5] : [-2.5, 2, 2.05]])
-		},0)
+		setTimeout(() => {
+			props.selo.callAction("wa1", "setProperty", ["rotation", props.start.includes("mirror") ? [0, 0, isNaN(parseFloat(props.start.slice(6))) ? 0.2 : props.start.slice(6)] : [0, 0, 0]])
+			props.selo.callAction("wa1", "setProperty", ["position", props.start.includes("mirror") ? [-2.5, 2, -1.5] : [-2.5, 2, 2.05]])
+		}, 0)
 	})
 
 	return (
@@ -223,11 +218,11 @@ export default function Scene(props) {
 			</For>
 
 			<Window3D
-						selo={props.selo}
-						nodeID={"wa1"}
-						portal={"p2"}
-						portalScene={"DiceWorld"}
-					>
+				selo={props.selo}
+				nodeID={"wa1"}
+				portal={"p2"}
+				portalScene={local.data.properties.portalSceneName}
+			>
 			</Window3D>
 
 			<Show when={props.currentSceneOnView().name !== local.data.nodeID}>
@@ -243,7 +238,7 @@ export default function Scene(props) {
 				sceneName={local.data.nodeID}
 				position={[0, 0, 0]}
 				rotation={[0, 0, 0]}
-				destinationScene={"DiceWorld"}
+				destinationScene={local.data.properties.portalSceneName}
 				currentSceneOnView={props.currentSceneOnView}
 				destination={"p2"}
 				selo={props.selo}

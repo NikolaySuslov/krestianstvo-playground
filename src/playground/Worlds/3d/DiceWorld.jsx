@@ -4,15 +4,13 @@ Copyright (c) 2022 Nikolay Suslov and the Krestianstvo.org project contributors.
 (https://github.com/NikolaySuslov/krestianstvo/blob/master/LICENSE.md)
 */
 
-import { createSignal, onMount, onCleanup, Show, lazy, Suspense, batch, createEffect, untrack } from 'solid-js';
-import { createStore, produce, unwrap, reconcile } from "solid-js/store";
+import { createSignal, onMount, onCleanup, createEffect } from 'solid-js';
+import { createStore } from "solid-js/store";
 import { createLocalStore, Selo, createQRCode, getRandomColor } from 'krestianstvo'
 import { v4 as uuidv4 } from 'uuid';
 
 import { Canvas, useThree, useFrame } from "@krestianstvo/solid-three";
-import { OrbitControls } from "../../Objects/Fiber/OrbitControls"
 import { useGLTF } from "solid-drei";
-//import { WebGLRenderer } from "three/src/renderers/WebGLRenderer";
 
 import { CoefficientCombineRule, ColliderDesc, RigidBody, RigidBodyDesc, World, Vector3, Quaternion } from '@dimforge/rapier3d-compat';
 
@@ -20,11 +18,10 @@ import AvatarPointer3D from '../../Objects/3D/AvatarPointer3D';
 import Window3D from "../../Objects/3D/Window3D"
 import Portal2D from "../../Objects/3D/Portal2D"
 
-//const cube = useGLTF('/dice.glb')
+import { animateScene } from "../../Objects/Rapier/RapierLib"
+import { randomCostume } from '../../Objects/Fiber/Utils';
 
 export default function Scene(props) {
-
-  // const cube = props.selo.resources
 
   const path = import.meta.url// + props.nodeID;
 
@@ -74,7 +71,8 @@ export default function Scene(props) {
         boxPosition: boxPositionProto,
         boxRotation: boxRotationProto,
         costumeGeometry: props.costumeGeometry ? props.costumeGeometry : "SphereGeometry",
-        test: 0
+        test: 0,
+        portalSceneName: props.portalSceneName ? props.portalSceneName : props.nodeID
       },
       dynamic: [
       ],
@@ -89,13 +87,10 @@ export default function Scene(props) {
 
   let refScene;
 
-  const [ph, setPh] = createStore({})
-
   const postInitialize = () => {
 
     if (!props.rapier.restored) {
       initPhysics()
-
     }
 
     let myRigitBody = props.rapier.world.getRigidBody(0)
@@ -106,16 +101,14 @@ export default function Scene(props) {
 
     if (props.rapier.restored) {
       doRapierWorldStep()
-
     }
-
   }
 
 
   const initialize = () => {
 
     animate()
-    randomCostume()
+    randomCostume(props, setLocal)
 
   }
 
@@ -132,31 +125,13 @@ export default function Scene(props) {
     }
   }
 
-  const [m, sm] = createSignal(0)
+  const [missedSteps, setMissedSteps] = createSignal(0)
 
   const animate = () => {
 
-    // setLocal("data", "properties", "test", c => c + 1)
-
-    if (!props.rapier.world) {
-      console.log("NO WORLD!!")
-      sm((c) => c + 1)
-    }
-
-    if (!local.data.properties.paused && props.rapier.world) {
-      //move()
-      if (m() > 0) {
-        console.log("Missed steps: ", m())
-        for (let i = 0; i < m(); i++) {
-          doRapierWorldStep()
-        }
-        sm(0)
-
-      }
-      doRapierWorldStep()
-    }
-
+    animateScene(props, local, doRapierWorldStep, missedSteps, setMissedSteps)
     props.selo.future(props.nodeID, "animate", 0.05)
+
   }
 
   const moveCube = () => {
@@ -166,8 +141,6 @@ export default function Scene(props) {
     }
     //props.selo.future(props.nodeID, "moveCube", 0.5)
   }
-
-
 
 
   const setKinematicTranslation = (data) => {
@@ -221,15 +194,6 @@ export default function Scene(props) {
 
   }
 
-  const randomCostume = () => {
-    const geometries = ["DodecahedronGeometry", "IcosahedronGeometry", "OctahedronGeometry", "TetrahedronGeometry", "SphereGeometry", "BoxGeometry"];
-
-    const random = Math.floor(props.selo.random() * geometries.length);
-    console.log(random, geometries[random]);
-    setLocal("data", "properties", "costumeGeometry", geometries[random])// geometries[random]);
-
-  }
-
   props.selo.createAction(props.nodeID, "postInitialize", postInitialize)
   props.selo.createAction(props.nodeID, "initialize", initialize)
   props.selo.createAction(props.nodeID, "step", step)
@@ -240,7 +204,7 @@ export default function Scene(props) {
   props.selo.createAction(props.nodeID, "changeBoxRotation", changeBoxRotation)
   props.selo.createAction(props.nodeID, "moveCube", moveCube)
   props.selo.createAction(props.nodeID, "applyImpulse", applyImpulse)
-  props.selo.createAction(props.nodeID, "randomCostume", randomCostume)
+  //props.selo.createAction(props.nodeID, "randomCostume", randomCostume)
 
 
   createEffect(() => {
@@ -335,9 +299,6 @@ export default function Scene(props) {
     props.selo.sendExtMsg({ msg: msg, id: props.nodeID })
   }
 
-  const [el, setEl] = createSignal(null);
-  const [uiEl, setUiEl] = createSignal(null);
-
 
   useThree((state) => {
     //console.log("State: ", state)
@@ -361,88 +322,89 @@ export default function Scene(props) {
 
 
   return (
+    <>
+      <scene ref={refScene}>
+        {/* <color attach="backgroundColor" r={1} g={1} b={0} /> */}
 
-    <scene ref={refScene}>
-      {/* <color attach="backgroundColor" r={1} g={1} b={0} /> */}
+        <For each={props.selo.storeNode.clients}>
 
-      <For each={props.selo.storeNode.clients}>
+          {(item) =>
 
-        {(item) =>
+            <Dynamic
+              nodeID={item}
+              scene={props.nodeID}
+              component={AvatarPointer3D} //{components["Avatar"]}
+              selo={props.selo}
+              moniker_={props.selo.storeVT.moniker_}
+              portals={props.portals}
+              currentSceneOnView={props.currentSceneOnView}
+              opacity={0.9}
+              size={1}
+              scale={[0.5, 0.5, 0.5]}
+              dynamicCostume={local.data.properties.costumeGeometry}
+            // costume={Box}
+            //costumeGeometry={local.data.properties.costumeGeometry}
+            />
 
-          <Dynamic
-            nodeID={item}
-            scene={props.nodeID}
-            component={AvatarPointer3D} //{components["Avatar"]}
-            selo={props.selo}
-            moniker_={props.selo.storeVT.moniker_}
-            portals={props.portals}
-            currentSceneOnView={props.currentSceneOnView}
-            opacity={0.9}
-            size={1}
-            scale={[0.5, 0.5, 0.5]}
-            dynamicCostume={local.data.properties.costumeGeometry}
-          // costume={Box}
-          //costumeGeometry={local.data.properties.costumeGeometry}
-          />
+          }
+        </For>
 
-        }
-      </For>
+        <RapierWorld world={props.rapier.world} />
+        <MyCameraReactsToStateChanges pos={[0, 0, 0]} />
+        <group>
+          <Box {...props} position={local.data.properties.boxPosition} world={props.rapier.world} qRotation={local.data.properties.boxRotation} model={props.selo.resources} />
 
-      <RapierWorld world={props.rapier.world} />
-      <MyCameraReactsToStateChanges pos={[0, 0, 0]} />
-      <group>
-        <Box {...props} position={local.data.properties.boxPosition} world={props.rapier.world} qRotation={local.data.properties.boxRotation} model={props.selo.resources} />
+          <mesh position={[0.5, 0.5, 0]} rotation={local.data.properties.angle} castShadow
+            onClick={() => { handlePause(!local.data.properties.paused) }}>
+            <boxBufferGeometry />
+            <meshStandardMaterial color={local.data.properties.color} />
+          </mesh>
+        </group>
+        <ambientLight intensity={0.1} />
+        <mesh
+          position={[0, 0, 0]}
+          scale={[100, 100, 1]}
+          rotation={[-Math.PI / 2, 0, 0]}
+        >
 
-        <mesh position={[0.5, 0.5, 0]} rotation={local.data.properties.angle} castShadow
-          onClick={() => { handlePause(!local.data.properties.paused) }}>
-          <boxBufferGeometry />
-          <meshStandardMaterial color={local.data.properties.color} />
+          <Ground rapier={props.rapier} />
         </mesh>
-      </group>
-      <ambientLight intensity={0.1} />
-      <mesh
-        position={[0, 0, 0]}
-        scale={[100, 100, 1]}
-        rotation={[-Math.PI / 2, 0, 0]}
-      >
+        <spotLight castShadow position={[-3, 5, 3]} intensity={2} color={"red"} penumbra={1} />
+        <spotLight castShadow position={[0, 5, 3]} intensity={2} color={"green"} penumbra={1} />
+        <spotLight castShadow position={[3, 5, 3]} intensity={2} color={"blue"} penumbra={1} />
 
-        <Ground rapier={props.rapier} />
-      </mesh>
-      <spotLight castShadow position={[-3, 5, 3]} intensity={2} color={"red"} penumbra={1} />
-      <spotLight castShadow position={[0, 5, 3]} intensity={2} color={"green"} penumbra={1} />
-      <spotLight castShadow position={[3, 5, 3]} intensity={2} color={"blue"} penumbra={1} />
-
-      <Window3D
-        selo={props.selo}
-        nodeID={"wb1"}
-        position={[-2.5, 2, 2]}
-        rotation={[0, -Math.PI, 0]}
-        portal={"p1"}
-        portalScene={"A"}
-      >
-      </Window3D>
-
-      <Show when={props.currentSceneOnView().name !== local.data.nodeID}>
         <Window3D
           selo={props.selo}
-          nodeID={"wb2"}
-          portalWindow={"wa1"}
+          nodeID={"wb1"}
+          position={[-2.5, 2, 2]}
+          rotation={[0, -Math.PI, 0]}
+          portal={"p1"}
+          portalScene={local.data.properties.portalSceneName}
         >
         </Window3D>
-      </Show>
+
+        <Show when={props.currentSceneOnView().name !== local.data.nodeID}>
+          <Window3D
+            selo={props.selo}
+            nodeID={"wb2"}
+            portalWindow={"wa1"}
+          >
+          </Window3D>
+        </Show>
 
 
-      <Portal2D
-        sceneName={local.data.nodeID}
-        destinationScene={"A"}
-        currentSceneOnView={props.currentSceneOnView}
-        destination={"p1"}
-        selo={props.selo}
-        nodeID={"p2"}
-        setPortal={props.setPortal}
-      />
+        <Portal2D
+          sceneName={local.data.nodeID}
+          destinationScene={local.data.properties.portalSceneName}
+          currentSceneOnView={props.currentSceneOnView}
+          destination={"p1"}
+          selo={props.selo}
+          nodeID={"p2"}
+          setPortal={props.setPortal}
+        />
 
-    </scene>
+      </scene>
+    </>
   )
 }
 
