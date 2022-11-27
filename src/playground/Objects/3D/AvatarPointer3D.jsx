@@ -189,7 +189,7 @@ export default function AvatarPointer3D(props) {
 						})
 
 						if (
-							portal.destinationScene !== portal.sceneName ||
+							portal.destinationScene == portal.sceneName ||
 							portal.destinationScene == props.currentSceneOnView().name
 
 						) {
