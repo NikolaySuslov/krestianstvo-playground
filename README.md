@@ -5,7 +5,7 @@ Krestianstvo | Playground - is the collection of worlds and experiences, develop
 ## Live Demo
 
 **https://play.krestianstvo.org**  
-### **K** - playground
+### **Toolbox**
 **https://play.krestianstvo.org/k**
 
 Mirror hosting:    
@@ -36,7 +36,7 @@ Krestianstvo SDK 4 is mainly developed using **[Solid JS](https://www.solidjs.co
 
 ## List of Worlds
 
-### [**K** - playground](https://play.krestianstvo.org/k) (serialize & restore Portals with JSON files, tools for creation, collaborative markdown and more...)
+### [**Toolbox**](https://play.krestianstvo.org/k) (serialize & restore Portals with JSON files, tools for creation, collaborative markdown and more...)
 
 ---
 

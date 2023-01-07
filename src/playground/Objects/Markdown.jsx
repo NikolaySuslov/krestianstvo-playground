@@ -4,7 +4,7 @@ Copyright (c) 2022 Nikolay Suslov and the Krestianstvo.org project contributors.
 (https://github.com/NikolaySuslov/krestianstvo/blob/master/LICENSE.md)
 */
 
-import { onMount, createSignal, createResource } from 'solid-js';
+import { onMount, createSignal, createResource, createEffect } from 'solid-js';
 import { createLocalStore } from 'krestianstvo'
 import SolidMarkdown from "solid-markdown";
 
@@ -65,9 +65,11 @@ Some *emphasis* HTML <strong>strong</strong>!
 
 	const step = (tick) => {}
 
-	const postInitialize = () => {}
+	const postInitialize = () => {
+		refetch()
+	}
 
-	const initialize = () => { }
+	const initialize = () => {}
 
 	const doesNotUnderstand = (data) => {
 		console.log("MY doesNotUnderstand action: ", data)
