@@ -181,12 +181,14 @@ export default function DragContainer(props) {
 
 	createPointerListeners({
 		target: () => dragComp,
-		pointerTypes: ["mouse", "touch"],
+		pointerTypes: ["mouse", "touch", "pen"],
 		onEnter: e => {
 			setMenuVis(1)
 		},
 		onLeave: e => {
-			setMenuVis(0)
+			if(e.pointerType !== "touch"){
+				setMenuVis(0)
+			}
 		}
 	});
 

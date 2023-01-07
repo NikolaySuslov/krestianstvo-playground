@@ -218,7 +218,12 @@ const PaintCanvas = (props) => {
 					//console.log('LEAVE!')
 					last = undefined
 					props.selo.sendExtMsg({ msg: "mouseEvent", id: 'pen_' + props.selo.storeVT.moniker_, params: ["mouseLeave", props.nodeID] })
-					props.selo.sendExtMsg({ msg: "deletePen", id: props.selo.storeVT.moniker_, params: [] })
+					
+					if(e.pointerType !== "touch"){
+						props.selo.sendExtMsg({ msg: "deletePen", id: props.selo.storeVT.moniker_, params: [] })
+					}
+
+
 				})
 				onMove(({ x, y }) => {
 					if (!last) return
