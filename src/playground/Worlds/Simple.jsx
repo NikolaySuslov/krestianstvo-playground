@@ -37,7 +37,7 @@ export default function Simple(props) {
 		// if (!local.data.properties.initialized) {
 		// 	//do initialization
 		// 	setLocal("data", "properties", "initialized", true);
-			inc()
+		inc()
 		// }
 	}
 
@@ -47,15 +47,15 @@ export default function Simple(props) {
 	return (
 		<>
 			<div flex-col text-7 m2 p4 style={{
-					opacity: 0.8,
-					background: local.data.properties.color,
-					width: "fit-content"
-				}}>
-			<div p1 style={{background: "rgba(255,255,255, 0.4)"}}>
-				<pre>Tick: {local.data.properties.tick?.toPrecision(4)}</pre>	
-				<pre>Count: {local.data.properties.count}</pre>
-				<pre>Color: {local.data.properties.color}</pre>	
-				</div>	
+				opacity: 0.8,
+				background: local.data.properties.color,
+				width: "fit-content"
+			}}>
+				<div p1 style={{ background: "rgba(255,255,255, 0.4)" }}>
+					<pre>Tick: {local.data.properties.tick?.toPrecision(4)}</pre>
+					<pre>Count: {local.data.properties.count}</pre>
+					<pre>Color: {local.data.properties.color}</pre>
+				</div>
 			</div>
 		</>
 	)

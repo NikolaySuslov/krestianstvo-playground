@@ -9,18 +9,17 @@ import { createLocalStore } from 'krestianstvo'
 
 import Styles from '../Web/Styles'
 
-export default function Counter(props) {
+export default function App(props) {
 
 	const { buttonGreen, buttonRed, buttonGrey } = Styles
 
 	const [local, setLocal] = createLocalStore({
 		data: {
-			type: "Counter",
+			type: "Node",
 			nodeID: props.nodeID,
 			properties: props.properties ? props.properties :{
 				name: props.name ? props.name : props.nodeID,
-				count: 0,
-				textInput: "",
+				text: props.text ? props.text: "",
 				ticking: false,
 				initialized: false,
 				dynamic: props.dynamic ? props.dynamic : false,
@@ -32,23 +31,12 @@ export default function Counter(props) {
 	}, props);
 
 
-	const add = () => {
-		setLocal("data", "properties", "count", (a) => a + 1)
-	}
-
-	const sub = () => {
-		setLocal("data", "properties", "count", (a) => a - 1);
-	}
-
 	const step = (tick) => {
 		// step on tick
 		//Call action by: 
 		//local.setActions["add"]([]) or 
 		//add() or
 		//props.selo.callAction(props.nodeID, "add", []) or
-
-		props.selo.future(props.nodeID, "add", 0, [])
-
 	}
 
 
@@ -59,12 +47,10 @@ export default function Counter(props) {
 	}
 
 	const textChanged = (data) => {
-		setLocal("data", "properties", "name", data[0])
+		setLocal("data", "properties", "text", data[0])
 	}
 
 	props.selo.createAction(props.nodeID, "doesNotUnderstand", doesNotUnderstand, true)
-	props.selo.createAction(props.nodeID, "add", add)
-	props.selo.createAction(props.nodeID, "sub", sub)
 	props.selo.createAction(props.nodeID, "step", step)
 	props.selo.createAction(props.nodeID, "initialize", initialize)
 	props.selo.createAction(props.nodeID, "textChanged", textChanged)
@@ -87,28 +73,19 @@ export default function Counter(props) {
 	return (
 		<>
 			<div class="p4">
-				<div class="text-3xl fw400">{local.data.properties.name}</div>
-				<input
+				<div class="text-3xl fw400">
+				<input text-3xl fw400 style={{
+						border: "none",
+						"background-color": "transparent",
+						//resize: "none",
+						outline: "none"
+				}}
 					placeholder="enter text"
-					value={local.data.properties.name}
+					value={local.data.properties.text}
 					onInput={(e) => handleTextInput(e.currentTarget.value)}
 				/>
-				<div class="flex gap-2">
-					<div class="p-2"><button class={buttonGrey()} onClick={[handleClick, "sub"]}>-</button></div>
-					<div class="p-4 text-3xl fw200 flex"
-						style={{
-							width: "30px"
-						}}> {local.data.properties.count}</div>
-					<div class="p-2"><button class={buttonGrey()} onClick={[handleClick, "add"]}>+</button></div>
-				</div>
-				<Switch fallback={<div>Not Found</div>}>
-					<Match when={!local.data.properties.ticking}>
-						<button class={buttonGreen()} onClick={[handleTicking, true]}>Start</button>
-					</Match>
-					<Match when={local.data.properties.ticking}>
-						<button class={buttonRed()} onClick={[handleTicking, false]}>Stop</button>
-					</Match>
-				</Switch>
+</div>
+
 			</div>
 
 			<For each={local.data.dynamic}>

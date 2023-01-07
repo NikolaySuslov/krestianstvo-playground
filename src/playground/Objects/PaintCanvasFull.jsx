@@ -9,6 +9,7 @@ import { produce } from "solid-js/store";
 import { createLocalStore } from 'krestianstvo'
 
 import { createPerPointerListeners } from '@solid-primitives/pointer'
+import { IoColorPaletteOutline } from 'solid-icons/io'
 
 const PaintCanvas = (props) => {
 
@@ -16,7 +17,7 @@ const PaintCanvas = (props) => {
 		data: {
 			type: "Node",
 			nodeID: props.nodeID,
-			properties: props.properties ? props.properties :{
+			properties: props.properties ? props.properties : {
 				name: props.name ? props.name : props.nodeID,
 				ticking: false,
 				initialized: false,
@@ -32,8 +33,9 @@ const PaintCanvas = (props) => {
 		}
 	}, props);
 
-	const step = (tick) => { }
 
+	const postInitialize = () => { }
+	const step = (tick) => { }
 	const initialize = () => { }
 
 	let [syncLines, setSyncLines] = createSignal(false)
@@ -63,7 +65,7 @@ const PaintCanvas = (props) => {
 			if (local.data.properties.penArray.length > 0) {
 				if (!syncLines()) {
 					local.data.properties.penArray.forEach(key => {
-						let linesArray = key.lines 
+						let linesArray = key.lines
 						linesArray.forEach((line, index) => {
 							if (index !== 0) {
 								drawLineOnCanvas(ctx, line,
@@ -148,6 +150,7 @@ const PaintCanvas = (props) => {
 	}
 
 	props.selo.createAction(props.nodeID, "initialize", initialize)
+	props.selo.createAction(props.nodeID, "postInitialize", postInitialize)
 	props.selo.createAction(props.nodeID, "startDraw", startDraw)
 	props.selo.createAction(props.nodeID, "draw", draw)
 	props.selo.createAction(props.nodeID, "stopDraw", stopDraw)
@@ -230,13 +233,36 @@ const PaintCanvas = (props) => {
 		})
 	})
 
+
+
+	function handleToggleMenu(value) {
+		//value ? setMenuVis("block") : setMenuVis("none")
+
+		let container = props.selo.getNodeByID(props.containerID);
+		let position = container ? { x: container.data.properties.position.x + 270, y: container.data.properties.position.y + 70 } : { x: 0, y: 0 }
+		let newMsg = {}
+		newMsg.position = position
+		newMsg.component = "ColorTool"
+		props.selo.sendExtMsg({ msg: "createNode", id: props.worldID, params: [newMsg] })
+
+	}
+
 	return (
 		<>
-			<div class="relative" style={{
-				userSelect: 'none',
-				'touch-action': 'none' 
+			<div class="grid grid-rows-1 grid-cols-2" style={{
+				"grid-template-columns": "max-content 1fr"
 			}}>
-				<canvas ref={canvas} width={local.data.properties.width} height={local.data.properties.height} />
+				<div class="col-span-1 box">
+					<div class="relative" style={{
+						userSelect: 'none',
+						'touch-action': 'none'
+					}}>
+						<canvas ref={canvas} width={local.data.properties.width} height={local.data.properties.height} />
+					</div>
+				</div>
+				<div class="col-span-1 box">
+					<button onClick={[handleToggleMenu, true]} bg-transparent hover:bg-gray-100 text-sm text-black font-mono font-light py-2 px-4 rounded b-0 ><IoColorPaletteOutline size={"2em"} /></button>
+				</div>
 			</div>
 		</>
 

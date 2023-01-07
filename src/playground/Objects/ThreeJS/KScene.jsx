@@ -6,7 +6,7 @@ Copyright (c) 2022 Nikolay Suslov and the Krestianstvo.org project contributors.
 
 
 import { createEffect, onMount, children, onCleanup, createSignal } from 'solid-js';
-import { createLocalStore } from 'krestianstvo'
+import { createLocalStore, deleteNode } from 'krestianstvo'
 
 import { BoxGeometry } from "three/src/geometries/BoxGeometry";
 import { DirectionalLight } from "three/src/lights/DirectionalLight";
@@ -45,7 +45,8 @@ const KScene = (props) => {
 				ticking: false,
 				initialized: false,
 				parentID: props.parentID ? props.parentID : null
-			}
+			},
+			dynamic: []
 		}
 	}, props);
 
@@ -157,6 +158,7 @@ const KScene = (props) => {
 
 	onCleanup(() => {
 		stop()
+		deleteNode([props.nodeID], setLocal, props.selo)
 		//window.removeEventListener("resize", updateViewOffset);
 	});
 

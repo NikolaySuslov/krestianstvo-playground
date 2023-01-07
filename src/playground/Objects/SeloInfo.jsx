@@ -5,22 +5,21 @@ Copyright (c) 2022 Nikolay Suslov and the Krestianstvo.org project contributors.
 */
 
 import { onMount } from 'solid-js';
-import { createLocalStore } from 'krestianstvo'
+import { createLocalStore, showState, createQRCode, createLinkForSelo } from 'krestianstvo'
 
 import Styles from '../Web/Styles'
 
-export default function Counter(props) {
+export default function App(props) {
 
 	const { buttonGreen, buttonRed, buttonGrey } = Styles
 
 	const [local, setLocal] = createLocalStore({
 		data: {
-			type: "Counter",
+			type: "Node",
 			nodeID: props.nodeID,
-			properties: props.properties ? props.properties :{
+			properties: props.properties ? props.properties : {
 				name: props.name ? props.name : props.nodeID,
-				count: 0,
-				textInput: "",
+				text: props.text ? props.text : "",
 				ticking: false,
 				initialized: false,
 				dynamic: props.dynamic ? props.dynamic : false,
@@ -32,23 +31,12 @@ export default function Counter(props) {
 	}, props);
 
 
-	const add = () => {
-		setLocal("data", "properties", "count", (a) => a + 1)
-	}
-
-	const sub = () => {
-		setLocal("data", "properties", "count", (a) => a - 1);
-	}
-
 	const step = (tick) => {
 		// step on tick
 		//Call action by: 
 		//local.setActions["add"]([]) or 
 		//add() or
 		//props.selo.callAction(props.nodeID, "add", []) or
-
-		props.selo.future(props.nodeID, "add", 0, [])
-
 	}
 
 
@@ -59,18 +47,15 @@ export default function Counter(props) {
 	}
 
 	const textChanged = (data) => {
-		setLocal("data", "properties", "name", data[0])
+		setLocal("data", "properties", "text", data[0])
 	}
 
 	props.selo.createAction(props.nodeID, "doesNotUnderstand", doesNotUnderstand, true)
-	props.selo.createAction(props.nodeID, "add", add)
-	props.selo.createAction(props.nodeID, "sub", sub)
 	props.selo.createAction(props.nodeID, "step", step)
 	props.selo.createAction(props.nodeID, "initialize", initialize)
 	props.selo.createAction(props.nodeID, "textChanged", textChanged)
 
 
-	onMount(() => { })
 
 	function handleClick(msg) {
 		props.selo.sendExtMsg({ msg: msg, id: props.nodeID })
@@ -84,32 +69,55 @@ export default function Counter(props) {
 		props.selo.sendExtMsg({ msg: "textChanged", id: props.nodeID, params: [msg] })
 	}
 
+	let thisDiv;
+
+	let link = createLinkForSelo(props.selo, { p: props.parameters, d: props.deepCount, u: props.urlSource })
+
+	onMount(() => {
+		createQRCode(thisDiv, link)
+	})
+
 	return (
 		<>
-			<div class="p4">
-				<div class="text-3xl fw400">{local.data.properties.name}</div>
-				<input
-					placeholder="enter text"
-					value={local.data.properties.name}
-					onInput={(e) => handleTextInput(e.currentTarget.value)}
-				/>
-				<div class="flex gap-2">
-					<div class="p-2"><button class={buttonGrey()} onClick={[handleClick, "sub"]}>-</button></div>
-					<div class="p-4 text-3xl fw200 flex"
-						style={{
-							width: "30px"
-						}}> {local.data.properties.count}</div>
-					<div class="p-2"><button class={buttonGrey()} onClick={[handleClick, "add"]}>+</button></div>
-				</div>
-				<Switch fallback={<div>Not Found</div>}>
-					<Match when={!local.data.properties.ticking}>
-						<button class={buttonGreen()} onClick={[handleTicking, true]}>Start</button>
-					</Match>
-					<Match when={local.data.properties.ticking}>
-						<button class={buttonRed()} onClick={[handleTicking, false]}>Stop</button>
-					</Match>
-				</Switch>
+
+			<div p-1>
+				<a href={link} text-center fw300 target="_blank">Link</a>
+				<div text-center ref={thisDiv} />
+
 			</div>
+
+
+			<div class="p2 truncate">
+				<pre>
+					<strong>Selo</strong>
+					<br />World: {props.selo.app}
+					<br />ID: {props.selo.id}
+					<br />Reflector: {props.selo.reflectorHost}
+				</pre>
+				<pre>Virtual Time: <strong>{props.selo.storeNode.tick?.toPrecision(4)} </strong></pre>
+				<pre>Clients: </pre>
+				<For each={props.selo.storeNode.clients} fallback={<div>Loading...</div>}>
+					{(item) =>
+						<Switch>
+							<Match when={item === props.selo.storeVT.moniker_}>
+								<strong><div>Me: {item} </div></strong>
+							</Match>
+							<Match when={item !== props.selo.storeVT.moniker_}>
+								<div>{item}</div>
+							</Match>
+						</Switch>
+					}
+				</For>
+
+				{/* <div>
+                    <pre>
+                        <strong>Debug</strong>
+                        <br />
+                        Deep: {props.deep} </pre>
+                    <button onClick={[showState, props.selo.owner]}>Show state</button>
+                </div> */}
+			</div>
+
 
 			<For each={local.data.dynamic}>
 				{(item) =>

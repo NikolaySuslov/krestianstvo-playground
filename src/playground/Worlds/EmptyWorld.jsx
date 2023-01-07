@@ -109,7 +109,7 @@ function App(props) {
                 <div p1>
                   <button class={"m1 bg-green-200 hover:bg-green-300 text-sm text-black font-mono font-light py-1 px-2 rounded border-2 border-green-200"} onClick={[handleClick, ["deleteNode", item.nodeID]]}>X</button>
                   <button class={"m1 bg-green-200 hover:bg-green-300 text-sm text-black font-mono font-light py-1 px-2 rounded border-2 border-green-200"} onClick={
-                    [handleClick, ["createNode", { id: item.nodeID, component: item.component, worldsPath: item.worldsPath, noAvatar: item.noAvatar }]]}>clone</button>
+                    [handleClick, ["createNode", { id: item.nodeID, component: item.component, noAvatar: item.noAvatar, cloneID: item.nodeID }]]}>clone</button>
 
                   <Dynamic
                     component={components[item.component]}

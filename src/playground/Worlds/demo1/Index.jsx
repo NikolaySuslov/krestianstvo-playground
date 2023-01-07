@@ -77,21 +77,24 @@ export default function Demo1(props) {
 
   return (
     <>
-      <div class="bg-blend-color relative flex h-full p1 m2"
+      <div class="bg-blend-color relative flex"
         style={{
           border: "2px dotted grey",
           width: "fit-content"
         }}>
         <div flex-col>
           <div flex>
+
             <Show when={props.info}>
               <SeloInfo
                 {...props}
               />
             </Show>
+
           </div>
           <div ref={setUiEl}></div>
         </div>
+
 
         <div class="relative p2 m2" ref={setEl} style={{
           border: "1px solid grey",
@@ -133,7 +136,7 @@ export default function Demo1(props) {
                 <div p1>
                   <button class={smallButton()} onClick={[handleClick, ["deleteNode", item.nodeID]]}>X</button>
                   <button class={smallButton()} onClick={
-                    [handleClick, ["createNode", { id: item.nodeID, component: item.component, worldsPath: item.worldsPath, noAvatar: item.noAvatar }]]}>clone</button>
+                    [handleClick, ["createNode", { id: item.nodeID, component: item.component, noAvatar: item.noAvatar, cloneID: item.nodeID}]]}>clone</button>
 
                   <Dynamic
                     component={components[item.component]}
@@ -159,6 +162,7 @@ export default function Demo1(props) {
               {...props}
               nodeID={genID("Portal" + props.nodeID, path)}
               noAvatar = {false}
+              auto={false}
               //deep={props.deep}
               //url={"pixel?k=1"}
               //param={(props.param ? props.param : 0) + 1}

@@ -4,7 +4,9 @@ import { DOMElements, SVGElements } from "solid-js/web/dist/dev.cjs";
 import Unocss from 'unocss/vite'
 import { presetUno, presetAttributify } from 'unocss'
 
+
 ////DEV MODE
+import devtools from '@solid-devtools/transform'
 //import path from 'path'
 ////
 
@@ -22,6 +24,10 @@ export default defineConfig(({
   //     allow: ['/'],
   //   }
   //   },
+  optimizeDeps: {
+    // Add both @codemirror/state and @codemirror/view to included deps to optimize
+    include: ['@codemirror/state', '@codemirror/view'],
+  },
   plugins: [
     {
       ...(await import("@mdx-js/rollup")).default({
@@ -31,6 +37,11 @@ export default defineConfig(({
       }),
       enforce: "pre"
     },
+    ////DEV MODE
+    devtools({
+      name: true,
+    }),
+    ////
     solidPlugin(
       {
         //ssr: false,
@@ -69,7 +80,10 @@ export default defineConfig(({
         manualChunks: {
           "@dimforge/rapier3d-compat": ['@dimforge/rapier3d-compat'],
           "three":["three"],
-          "krestianstvo":["krestianstvo"]
+          "krestianstvo":["krestianstvo"],
+          "@codemirror/state": ['@codemirror/state'],
+          "@codemirror/view": ['@codemirror/view'],
+          "solid-codemirror": ["solid-codemirror"]
         }
       }
     }

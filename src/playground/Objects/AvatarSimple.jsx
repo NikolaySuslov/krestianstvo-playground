@@ -214,7 +214,7 @@ export default function Avatar(props) {
 
 			}}>
 
-				<div class={styles.avatarBody}>
+				<div pt-12 class={styles.avatarBody}>
 
 					<For each={local.data.dynamic}>
 						{(item) =>

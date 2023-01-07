@@ -1,3 +1,4 @@
 {
-    "defaultReflectorHost": "https://time.krestianstvo.org"
+    "defaultReflectorHost": "https://time.krestianstvo.org",
+    "devMode": false
 }

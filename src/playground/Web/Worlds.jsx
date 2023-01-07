@@ -23,8 +23,15 @@ import { default as simple } from '../Worlds/Simple'
 import { default as emptyWorld } from '../Worlds/EmptyWorld'
 import HomeWorld from "../Worlds/HomeWorld"
 
+import webcam from '../Objects/CameraTool'
+import color from '../Objects/ColorTool'
+import canvas from '../Objects/PaintCanvasFull'
 import counter from '../Objects/Counter'
 import portal from '../Objects/Portal'
+import code from '../Objects/CodeMirror'
+import editor from '../Objects/MarkdownEditor'
+
+import play from '../Worlds/play/Index'
 
 import { default as rselo } from '../Worlds/Examples/Portal/RecursiveSelo'
 import { default as rworld } from '../Worlds/Examples/Portal/RecursiveWorld'
@@ -44,6 +51,11 @@ const worlds = {
     multicamera: multicamera,
     fiber: fiber,
 
+    editor: editor,
+    code: code,
+    webcam: webcam,
+    ColorTool: color,
+    canvas: canvas,
     counter: counter,
     portal: portal,
     simple: simple,
@@ -53,7 +65,9 @@ const worlds = {
     rselo: rselo,
     rworld: rworld,
     "3d": portals3d,
-    "3d-2": portals3d_mirror
+    "3d-2": portals3d_mirror,
+
+    k: play
 
 }
 

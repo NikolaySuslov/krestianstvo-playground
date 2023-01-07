@@ -5,7 +5,7 @@ Copyright (c) 2022 Nikolay Suslov and the Krestianstvo.org project contributors.
 */
 
 import { batch, createEffect, onMount, onCleanup } from 'solid-js';
-import { createLocalStore } from 'krestianstvo'
+import { createLocalStore, deleteNode } from 'krestianstvo'
 
 import { Mesh } from "three/src/objects/Mesh";
 import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial";
@@ -35,7 +35,8 @@ const KMesh = (props) => {
 				position: props.position ? props.position : [0, 0, 0],
 				animationRate: props.animationRate ? props.animationRate : 0.01
 
-			}
+			},
+			dynamic: []
 		}
 	}, props);
 
@@ -101,6 +102,7 @@ const KMesh = (props) => {
 
 	onCleanup(() => {
 		console.log("Remove: ", mesh.name)
+		deleteNode([mesh.name], setLocal, props.selo)
 		mesh.removeFromParent()
 	})
 

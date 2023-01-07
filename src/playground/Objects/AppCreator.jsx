@@ -12,14 +12,16 @@ export default function AppCreator(props) {
 	const [local, setLocal] = createLocalStore({
 		data: {
 			type: "App",
+			component: "AppCreator",
 			nodeID: props.nodeID,
-			properties: {
+			properties: props.properties ? props.properties : {
 				name: props.name ? props.name : props.nodeID,
 				ticking: false,
 				initialized: false,
 				url: props.url ? props.url : '',
 				editURL: false,
-				editMode: true
+				editMode: true,
+				parentID: props.parentID ? props.parentID : null
 			},
 			dynamic: [
 			],
@@ -29,7 +31,11 @@ export default function AppCreator(props) {
 	}, props);
 
 	const step = (tick) => { }
-	const initialize = () => { }
+	const initialize = () => {
+		console.log("initialize portal")
+		// if (local.data.properties.url.length > 0)
+		// 	createPortal()
+	 }
 
 	const doesNotUnderstand = (data) => {
 		console.log("MY doesNotUnderstand action: ", data)
@@ -91,7 +97,7 @@ export default function AppCreator(props) {
 
 	const [seloData, params] = splitProps(
 		props,
-		["selo", "nodeID"] //"seloID", "deep", "deepCount", "worldsPath"
+		["selo", "nodeID", "properties"] //"seloID", "deep", "deepCount", "worldsPath"
 	);
 
 	return (
@@ -169,6 +175,7 @@ export default function AppCreator(props) {
 								selo={props.selo}
 								deep={props.deep}
 								noAvatar={true}
+								properties={props.appProperties}
 							/>
 						}
 					</For>

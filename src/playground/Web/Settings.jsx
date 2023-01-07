@@ -9,6 +9,7 @@ import { Link } from "@solidjs/router"
 export default function Settings(props) {
 
 	let inputDiv;
+	let devMode;
 
 	const handleKeyUp = (e) => {
 		if (e.key === 'Enter' || e.keyCode === 13) {
@@ -20,6 +21,10 @@ export default function Settings(props) {
 	const handleClick = (e) => {
 		props.setConfig("defaultReflectorHost", inputDiv.value)
 		//history.back();
+	}
+
+	const setDevMode = (e) => {
+		props.setConfig("devMode", devMode.checked)
 	}
 
 	return (
@@ -41,6 +46,12 @@ export default function Settings(props) {
 					/>
 				</div>
 				<div pt3><button text-4 onClick={handleClick}>Update</button></div>
+
+				<div pt5 align-center flex >
+					<div pr2 text-4 class="fw700">DEV mode:</div>
+					<input ref={devMode} type="checkbox" checked={props.config.devMode} onChange={setDevMode}/>
+
+				</div>
 
 			</div>
 		</>
