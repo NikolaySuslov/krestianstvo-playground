@@ -190,16 +190,16 @@ const PaintCanvas = (props) => {
 
 		onCleanup(() => cancelAnimationFrame(frame));
 
+		const [d, sD] = createSignal(false)
+
 		createPerPointerListeners({
 			target: () => canvas,
 			pointerTypes: ['mouse', 'touch', 'pen'],
 			onEnter(e, { onDown, onMove, onUp, onLeave }) {
 				let last;
-
 				props.selo.sendExtMsg({ msg: "createPen", id: props.selo.storeVT.moniker_, params: [] })
 
 				onDown(({ x, y }) => {
-					//console.log('DOWN X: ', x, 'Y: ', y);
 					last = { x, y }
 					let cp = getMousePos(canvas, x, y)
 					props.selo.sendExtMsg({ msg: "mouseEvent", id: 'pen_' + props.selo.storeVT.moniker_, params: ["mouseDown", props.nodeID, cp.x, cp.y] })
@@ -215,7 +215,10 @@ const PaintCanvas = (props) => {
 					//console.log('LEAVE!')
 					last = undefined
 					props.selo.sendExtMsg({ msg: "mouseEvent", id: 'pen_' + props.selo.storeVT.moniker_, params: ["mouseLeave", props.nodeID] })
-					props.selo.sendExtMsg({ msg: "deletePen", id: props.selo.storeVT.moniker_, params: [] })
+					if(e.pointerType !== "touch"){
+						props.selo.sendExtMsg({ msg: "deletePen", id: props.selo.storeVT.moniker_, params: [] })
+					}
+					
 				})
 				onMove(({ x, y }) => {
 					if (!last) return

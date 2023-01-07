@@ -275,7 +275,7 @@ export default function SeloPortal(props) {
 							<div class="text-3xl fw400">Portal</div>
 							<input
 								size={60}
-								placeholder="enter url or world name like: painter, demo1, rapier, grid, fiber"
+								placeholder="enter url or world name like: k, painter, demo1, rapier, grid, fiber"
 								value={local.data.properties.url}
 								onInput={(e) => handleTextInput(e.currentTarget.value)}
 							/>

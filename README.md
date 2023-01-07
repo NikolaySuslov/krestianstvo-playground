@@ -40,6 +40,8 @@ Krestianstvo SDK 4 is mainly developed using **[Solid JS](https://www.solidjs.co
 
 ---
 
+### [Markdown Editor](https://play.krestianstvo.org/editor)
+### [Code Mirror](https://play.krestianstvo.org/code)
 ### [Portals 3D (direct)](https://play.krestianstvo.org/3d)
 ### [Portals 3D (mirror)](https://play.krestianstvo.org/3d?p=mirror0.2)
 ### [Hello world!](https://play.krestianstvo.org/simple)

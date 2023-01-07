@@ -134,7 +134,7 @@ export default function AppCreator(props) {
 							<div class="text-3xl fw400">App</div>
 							<input
 								size={60}
-								placeholder="enter world name like: painter, demo1, rapier, grid, fiber, simple"
+								placeholder="enter world name like: k, painter, demo1, rapier, grid, fiber, simple"
 								value={local.data.properties.url}
 								onInput={(e) => handleTextInput(e.currentTarget.value)}
 							/>
