@@ -1,5 +1,6 @@
 function styles() {
 
+
     const buttonGreen = () => {
         return "m1 bg-green-200 hover:bg-green-300 text-sm text-black font-mono font-light py-2 px-4 rounded border-2 border-green-200"
     }
@@ -13,7 +14,7 @@ function styles() {
     }
 
     const buttonGrey = () => {
-        return "m1 bg-grey-200 hover:bg-grey-300 text-sm text-black font-mono font-light py-2 px-4 rounded border-2 border-grey-200"
+        return "m1 bg-gray-100 hover:bg-gray-200 text-sm text-black font-mono font-light py-2 px-4 rounded b-1 border-gray"
     }
    
 

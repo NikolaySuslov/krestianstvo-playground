@@ -6,7 +6,7 @@ Copyright (c) 2022 Nikolay Suslov and the Krestianstvo.org project contributors.
 
 import { onMount, createEffect, onCleanup, batch } from 'solid-js';
 import { produce } from "solid-js/store";
-import { createLocalStore } from 'krestianstvo'
+import { createLocalStore, deleteNode } from 'krestianstvo'
 
 import { PerspectiveCamera } from "three/src/cameras/PerspectiveCamera";
 
@@ -192,12 +192,13 @@ const KPerspectiveCamera = (props) => {
 		console.log("Remove: ", camera.name)
 		camera.removeFromParent()
 
-		props.selo.setStoreNode(
-			produce((s) => {
-				s.storesRefs[props.nodeID] = undefined
-				s.localStores[props.nodeID] = undefined
-			})
-		);
+		deleteNode([props.nodeID], setLocal, props.selo)
+		// props.selo.setStoreNode(
+		// 	produce((s) => {
+		// 		s.storesRefs[props.nodeID] = undefined
+		// 		s.localStores[props.nodeID] = undefined
+		// 	})
+		// );
 
 	})
 

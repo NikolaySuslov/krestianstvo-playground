@@ -145,7 +145,7 @@ function App(props) {
                 <div p1>
                   <button class={smallButton()} onClick={[handleClick, ["deleteNode", item.nodeID]]}>X</button>
                   <button class={smallButton()} onClick={
-                    [handleClick, ["createNode", { id: item.nodeID, component: item.component, noAvatar: item.noAvatar }]]}>clone</button>
+                    [handleClick, ["createNode", { id: item.nodeID, component: item.component, noAvatar: item.noAvatar, cloneID: item.nodeID }]]}>clone</button>
 
                 <Dynamic
                     component={components[item.component]}

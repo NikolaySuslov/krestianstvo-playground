@@ -18,9 +18,10 @@ export default function World(props) {
     const worldName = props.worldName ? props.worldName : useParams().world ? useParams().world : "emptyWorld";
     const pathname = createMemo(() => location.pathname);
 
+    let urlSource  = searchParams?.url ? searchParams?.url : null
     let reflectorHost = searchParams?.r ? searchParams?.r : null
     let parameters = searchParams?.p ? searchParams?.p : null
-    let seloID = props.seloID ? props.seloID : searchParams?.k ? searchParams?.k : generateURL(pathname, worldName, reflectorHost, parameters)
+    let seloID = props.seloID ? props.seloID : searchParams?.k ? searchParams?.k : generateURL(pathname, worldName, reflectorHost, parameters, urlSource)
 
     const worldComp = props.worlds[worldName]
    
@@ -34,6 +35,7 @@ export default function World(props) {
             component={worldComp}
             worlds={worlds}
             fallbackWorld={worlds.emptyWorld}
+            urlSource={urlSource}
         />
     )
 }

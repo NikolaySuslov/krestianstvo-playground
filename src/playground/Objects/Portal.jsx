@@ -4,7 +4,8 @@ Copyright (c) 2022 Nikolay Suslov and the Krestianstvo.org project contributors.
 (https://github.com/NikolaySuslov/krestianstvo/blob/master/LICENSE.md)
 */
 
-import { onMount, splitProps } from 'solid-js';
+import { createEffect, onMount, splitProps, batch } from 'solid-js';
+import { unwrap } from 'solid-js/store'
 import { createLocalStore, collectParentSelos, createLinkForSelo, getSeloByID, Selo } from 'krestianstvo'
 
 
@@ -14,14 +15,19 @@ export default function SeloPortal(props) {
 		data: {
 			type: "App",
 			nodeID: props.nodeID,
-			properties: {
+			component: "Portal",
+			properties: props.properties ? props.properties :{
 				name: props.name ? props.name : props.nodeID,
 				ticking: false,
 				initialized: false,
 				url: props.url ? props.url : '',
+				restored: props.restored ? props.restored : false,
 				editURL: false,
-				editMode: true
+				editMode: true,
+				parentID: props.parentID ? props.parentID : null,
+				auto: props.auto ? props.auto : false,
 			},
+
 			dynamic: [
 			],
 			dynamicSelo: [
@@ -30,15 +36,87 @@ export default function SeloPortal(props) {
 	}, props);
 
 
+	// createEffect(()=>{
+	// 	console.log("init callback: ", props.initCallback)
+	// 	if(props.initCallback){
+	// 		batch(()=>{
+	// 			Object.entries(props.initCallback).forEach(prop=>{
+	// 				setLocal("data", "properties", prop[0], prop[1])
+	// 			})
+	// 		})
+
+	// 	}
+	// })
+
 	const step = (tick) => {
 		// step on tick
 	}
 
-	const initialize = () => {
+	createEffect(() => {
+		//props.client == props.selo.storeVT.moniker_ && 
+		if (!local.data.dynamicSelo[0] && props.selo.storeVT.seloSource) {
+			console.log("RESTORE PORTAL for me: ", props.selo.storeVT.moniker_, " - - ", props.selo.storeVT.seloSource)
+			createPortal(local.data.properties.url)
+			//setLocal("data", "properties", "url", url)
 
-		if (local.data.properties.url.length > 0)
+			//props.selo.callAction(props.nodeID, "restore", []) 
+		}
+
+	})
+
+	createEffect(()=>{
+		let data = props.selo.storeVT.syncDataFile
+		console.log("DATA SYNC: ", data)
+
+		if(data && data?.status == "done"){
+			//let node = props.selo.getNodeByID(local.data.nodeID);
+		
+		props.selo.sendExtMsg({ msg: "restorePortal", id: local.data.nodeID, params: [data?.client] })
+		props.selo.setStoreVT("syncDataFile", null)
+			
+		}
+	})
+
+
+	createEffect(() => {
+		console.log(local.data.dynamicSelo[0])
+
+		setTimeout(()=>{
+		let el = local.data.dynamicSelo[0]
+		if (el) {
+			let selo = getSeloByID(el.seloID)
+			if (selo) {
+				let url = createLinkForSelo(selo, { p: el.parameters, d: el.deepCount, u: el.urlSource })
+				setLocal("data", "properties", "url", url)
+
+				if (props.selo.storeVT.seloSource) {
+
+						props.selo.sendExtMsg({ msg: "setProperty", id: props.nodeID, when: 0.1, params: ["url", local.data.properties.url] })
+					
+
+							let data = JSON.stringify(props.selo.storeVT.seloSource)//Object.assign({}, unwrap(props.selo.storeVT.seloSource));
+							selo.callAction(el.app, "restore", [data, props.selo.id]) 
+							props.selo.setStoreVT("seloSource", null)
+				}
+			}
+		}
+	},0)
+	})
+
+
+	createEffect(()=>{
+
+		if(local.data.properties.auto && !local.data.dynamicSelo[0])
 			createPortal()
+
+	})
+
+	const initialize = () => {
+		console.log("initialize portal")
+		// if (local.data.properties.url.length > 0)
+		// 	createPortal()
 	}
+
 
 	const doesNotUnderstand = (data) => {
 		console.log("MY doesNotUnderstand action: ", data)
@@ -66,6 +144,7 @@ export default function SeloPortal(props) {
 		let p = new URLSearchParams(url.search).get("p");
 		let e = new URLSearchParams(url.search).get("e");
 		let i = new URLSearchParams(url.search).get("i");
+		let u = new URLSearchParams(url.search).get("url");
 
 
 		props.selo.callAction(props.nodeID, "createSelo", [{
@@ -75,7 +154,8 @@ export default function SeloPortal(props) {
 			info: i && i == 0 ? false : i && i == 1 ? true : (props.info == false) ? props.info : true,
 			deepCount: d ? d : props.dc ? props.dc : 2,
 			index: 0,
-			parameters: p ? p : undefined
+			parameters: p ? p : undefined,
+			urlSource: u ? u : null
 		}])
 
 		setLocal("data", "properties", "editMode", e ? e : true)
@@ -104,14 +184,30 @@ export default function SeloPortal(props) {
 		}
 	}
 
+	const restorePortal = (data) => {
+
+		if(data[0] !== props.selo.storeVT.moniker_){
+			createPortal(local.data.properties.url)
+		}
+
+	}
+
 	props.selo.createAction(props.nodeID, "doesNotUnderstand", doesNotUnderstand, true)
 	props.selo.createAction(props.nodeID, "step", step)
 	props.selo.createAction(props.nodeID, "initialize", initialize)
 	props.selo.createAction(props.nodeID, "textChanged", textChanged)
 	props.selo.createAction(props.nodeID, "createPortal", createPortal)
 
+	props.selo.createAction(props.nodeID, "restorePortal", restorePortal)
+
 
 	onMount(() => { })
+
+	function handleClickSync(msg) {
+		createPortal(local.data.properties.url)
+	
+	}
+	
 
 	function handleClick(msg) {
 		props.selo.sendExtMsg({ msg: msg[0], id: props.nodeID, params: [msg[1]] })
@@ -127,7 +223,7 @@ export default function SeloPortal(props) {
 		if (el) {
 			let selo = getSeloByID(el.seloID)
 			if (selo) {
-				let url = createLinkForSelo(selo, {p: el.parameters, d: el.deepCount })
+				let url = createLinkForSelo(selo, { p: el.parameters, d: el.deepCount, u: el.urlSource })
 				setLocal("data", "properties", "url", url)
 			}
 
@@ -185,10 +281,17 @@ export default function SeloPortal(props) {
 							/>
 							<div class="flex gap-1 pt1">
 								<Switch>
-									<Match when={local.data.properties.url.length > 0 && !local.data.dynamicSelo[0]}>
+									<Match when={local.data.properties.url?.length > 0 && !local.data.dynamicSelo[0]}>
+									{/* <Show when={local.data.properties.restored}>
+									<button onClick={[handleClickSync, ["createPortal"]]}>Sync  portal</button>
+								</Show>
+								<Show when={!local.data.properties.restored}>
+								<button onClick={[handleClick, ["createPortal"]]}>Create portal</button>
+								</Show> */}
+										
 										<button onClick={[handleClick, ["createPortal"]]}>Create portal</button>
 									</Match>
-									<Match when={local.data.properties.url.length > 0 && local.data.dynamicSelo[0]}>
+									<Match when={local.data.properties.url?.length > 0 && local.data.dynamicSelo[0]}>
 										<button onClick={[handleClick, ["createPortal"]]}>Update portal</button>
 									</Match>
 								</Switch>
@@ -222,6 +325,8 @@ export default function SeloPortal(props) {
 										parentSeloID={props.selo.id}
 										parameters={item.parameters}
 										component={props.worlds ? props.worlds[item.app] : props.fallbackWorld}
+										source={props.source}
+										urlSource={item.urlSource}
 									/>
 								</Show>
 							</div>

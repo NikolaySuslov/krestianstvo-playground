@@ -272,7 +272,7 @@ export default function AvatarPointer3D(props) {
 
 	onCleanup(() => {
 		console.log("delete avatar");
-		deleteNode([props.nodeID], setLocal, props.selo)
+		//deleteNode([props.nodeID], setLocal, props.selo)
 	});
 
 
