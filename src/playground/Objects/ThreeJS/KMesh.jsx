@@ -102,7 +102,7 @@ const KMesh = (props) => {
 
 	onCleanup(() => {
 		console.log("Remove: ", mesh.name)
-		deleteNode([mesh.name], setLocal, props.selo)
+		//deleteNode([mesh.name], setLocal, props.selo)
 		mesh.removeFromParent()
 	})
 

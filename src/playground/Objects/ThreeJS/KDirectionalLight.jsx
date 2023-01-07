@@ -27,7 +27,8 @@ const KDirectionalLight = (props) => {
 				rotation: props.rotation ? props.rotation : [0, 0, 0],
 				position: props.direction ? props.direction : [0, 0, 0],
 				animationRate: props.animationRate ? props.animationRate : 0.01
-			}
+			},
+			dynamic: []
 		}
 	}, props);
 

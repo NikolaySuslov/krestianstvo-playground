@@ -158,7 +158,7 @@ const KScene = (props) => {
 
 	onCleanup(() => {
 		stop()
-		deleteNode([props.nodeID], setLocal, props.selo)
+		//deleteNode([props.nodeID], setLocal, props.selo)
 		//window.removeEventListener("resize", updateViewOffset);
 	});
 

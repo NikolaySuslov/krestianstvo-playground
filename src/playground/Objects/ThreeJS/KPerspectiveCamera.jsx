@@ -41,7 +41,8 @@ const KPerspectiveCamera = (props) => {
 				display: props.display ? props.display : 0,
 				gridID: props.gridID ? props.gridID : 0,
 			},
-			cameraMaps: ["1x1", "2x2", "3x2", "4x4"]
+			cameraMaps: ["1x1", "2x2", "3x2", "4x4"],
+			dynamic: []
 		}
 	}, props);
 
@@ -192,7 +193,7 @@ const KPerspectiveCamera = (props) => {
 		console.log("Remove: ", camera.name)
 		camera.removeFromParent()
 
-		deleteNode([props.nodeID], setLocal, props.selo)
+		//deleteNode([props.nodeID], setLocal, props.selo)
 		// props.selo.setStoreNode(
 		// 	produce((s) => {
 		// 		s.storesRefs[props.nodeID] = undefined
