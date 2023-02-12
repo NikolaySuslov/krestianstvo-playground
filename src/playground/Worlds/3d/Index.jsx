@@ -6,7 +6,7 @@ Copyright (c) 2022 Nikolay Suslov and the Krestianstvo.org project contributors.
 
 import { createSignal, onMount, onCleanup, Show, lazy, createMemo, createEffect, createRoot } from 'solid-js';
 import { produce, createStore } from "solid-js/store";
-import { createLocalStore, Selo, createQRCode, getRandomColor, genID } from 'krestianstvo'
+import { createLocalStore, Selo, createQRCode, createLinkForSelo, getRandomColor, genID } from 'krestianstvo'
 import Avatar from "../../Objects/Avatar"
 import { v4 as uuidv4 } from 'uuid';
 
@@ -31,9 +31,11 @@ import { default as DiceWorld } from "./DiceWorld"
 import RapierWorld from "../../Objects/Rapier/RapierWorld"
 import { loadRapierLib } from "../../Objects/Rapier/RapierLib"
 
-const rapierLoad = createRoot(() => { return loadRapierLib() })
+
 
 function App(props) {
+
+  const rapierLoad = createRoot(() => { return loadRapierLib() })
 
   const path = import.meta.url// + props.nodeID;
   const aID = genID("A" + props.nodeID, path);
@@ -240,29 +242,55 @@ function App(props) {
 
   //[handleClick, ["changeScene", "C"]]
 
+  let thisDiv;
+
+  let link = createLinkForSelo(props.selo, { p: props.parameters, d: props.deepCount })
+
+  onMount(() => {
+    if (!props.inPortal)
+      createQRCode(thisDiv, link)
+  })
+
   return (
     <>
-      <div class="bg-blend-color relative flex h-full p1 m2"
+      <div class={props.inPortal ? "bg-blend-color relative flex h-full p1 m2" : "relative flex"}
         style={{
-          border: "2px dotted grey",
-          width: "fit-content"
+          border: props.inPortal ? "2px dotted grey" : "",
+          width: "fit-content",
+          overflow: "hidden"
         }}>
-        <div flex-col>
-          <div flex>
-            <Show when={props.info}>
-              <SeloInfo
-                {...props}
-              />
-            </Show>
-          </div>
-          <div ref={setUiEl}></div>
-        </div>
 
-        <div class="relative p3 m2" ref={setEl} style={{
-          border: "1px solid grey",
+        <Show when={!props.inPortal}>
+          <div p2 style={{
+            position: 'absolute',
+            top: "30px",
+            "z-index": 100,
+            background: "rgba(255, 255, 255, 0.7)"
+
+          }}>
+            <div pb1 ref={thisDiv} />
+            <a href={link} text-center fw300 target="_blank">Link</a>
+          </div>
+        </Show>
+
+        <Show when={props.inPortal}>
+          <div flex-col>
+            <div flex>
+              <Show when={props.info}>
+                <SeloInfo
+                  {...props}
+                />
+              </Show>
+            </div>
+            <div ref={setUiEl}></div>
+          </div>
+        </Show>
+
+        <div class={props.inPortal ? "relative p3 m2" : "relative"} ref={setEl} style={{
+          border: props.inPortal ? "1px solid grey" : "",
           width: "fit-content"
         }}>
-          <div p1>
+          <div p1 absolute z-100>
             <button onClick={[changeScene, [aID]]}>Enter A World</button>
             <button onClick={[changeScene, [diceWorldID]]}>Enter Dice World</button>
           </div>
@@ -278,41 +306,41 @@ function App(props) {
             position: "relative"
           }}>
             <span>{rapierLoad.loading && "Loading Rapier Engine..."}</span>
+            <div style={{ width: props.inPortal ? "640px" : "100vw", height: props.inPortal ? "480px" : "100vh" }}>
+              <Canvas
+                camera={{ position: [-5, 4.5, 7] }}
+                height={"100%"}
+                width={"100%"}
+                shadows
+              >
+                {/* <MyCameraReactsToStateChanges position={[0, 4, 8]}> */}
+                {/* <perspectiveCamera position={[0, 3, 4]}></perspectiveCamera> */}
 
-            <Canvas
-              camera={{ position: [-5, 4.5, 7] }}
-              height={"480px"}
-              width={"640px"}
-              shadows
-            >
-              {/* <MyCameraReactsToStateChanges position={[0, 4, 8]}> */}
-              {/* <perspectiveCamera position={[0, 3, 4]}></perspectiveCamera> */}
+                <For each={local.data.dynamic}>
+                  {(item) =>
+                    <Dynamic
+                      component={scenes[item.component]}
+                      nodeID={item.nodeID}
+                      sceneName={item.nodeID}
+                      current={current() == item.nodeID}
+                      set={setCurrentScene}
+                      currentSceneOnView={currentScene}
+                      selo={props.selo}
+                      portals={portals}
+                      setPortal={setPortal}
+                      rapier={props.rapier}
+                      start={local.data.properties.start}
+                      portalSceneName={item.portalSceneName}
+                    />
+                  }
+                </For>
 
-              <For each={local.data.dynamic}>
-                {(item) =>
-                  <Dynamic
-                    component={scenes[item.component]}
-                    nodeID={item.nodeID}
-                    sceneName={item.nodeID}
-                    current={current() == item.nodeID}
-                    set={setCurrentScene}
-                    currentSceneOnView={currentScene}
-                    selo={props.selo}
-                    portals={portals}
-                    setPortal={setPortal}
-                    rapier={props.rapier}
-                    start={local.data.properties.start}
-                    portalSceneName = {item.portalSceneName}
-                  />
-                }
-              </For>
+                <RenderMain {...props}></RenderMain>
 
-              <RenderMain {...props}></RenderMain>
+                <OrbitControls ref={orbitRef} minPolarAngle={0} maxPolarAngle={Math.PI / 2.1} enableZoom={false} makeDefault={true} />
 
-              <OrbitControls ref={orbitRef} minPolarAngle={0} maxPolarAngle={Math.PI / 2.1} enableZoom={false} makeDefault={true} />
-
-            </Canvas>
-
+              </Canvas>
+            </div>
           </div>
         </div>
       </div>

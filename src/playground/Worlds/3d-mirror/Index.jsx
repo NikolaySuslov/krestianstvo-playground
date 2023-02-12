@@ -31,10 +31,12 @@ import { default as DiceWorld } from "./DiceWorld"
 import RapierWorld from "../../Objects/Rapier/RapierWorld"
 import { loadRapierLib } from "../../Objects/Rapier/RapierLib"
 
-const rapierLoad = createRoot(() => { return loadRapierLib() })
+
 
 function App(props) {
 
+  const rapierLoad = createRoot(() => { return loadRapierLib() })
+  
   const path = import.meta.url// + props.nodeID;
 
   const [local, setLocal] = createLocalStore({
@@ -240,24 +242,28 @@ function App(props) {
 
   return (
     <>
-      <div class="bg-blend-color relative flex h-full p1 m2"
+      <div class={props.inPortal ? "bg-blend-color relative flex h-full p1 m2" : "relative flex"}
         style={{
-          border: "2px dotted grey",
-          width: "fit-content"
+          border: props.inPortal ? "2px dotted grey" : "",
+          width: "fit-content",
+          overflow: "hidden"
         }}>
-        <div flex-col>
-          <div flex>
-            <Show when={props.info}>
-              <SeloInfo
-                {...props}
-              />
-            </Show>
-          </div>
-          <div ref={setUiEl}></div>
-        </div>
 
-        <div class="relative p3 m2" ref={setEl} style={{
-          border: "1px solid grey",
+        <Show when={props.inPortal}>
+          <div flex-col>
+            <div flex>
+              <Show when={props.info}>
+                <SeloInfo
+                  {...props}
+                />
+              </Show>
+            </div>
+            <div ref={setUiEl}></div>
+          </div>
+        </Show>
+
+        <div class={props.inPortal ? "relative p3 m2" : "relative"} ref={setEl} style={{
+          border: props.inPortal ? "1px solid grey" : "",
           width: "fit-content"
         }}>
           <div p1>
@@ -276,11 +282,11 @@ function App(props) {
             position: "relative"
           }}>
             <span>{rapierLoad.loading && "Loading Rapier Engine..."}</span>
-
+            <div style={{ width: props.inPortal ? "640px" : "100vw", height: props.inPortal ? "480px" : "100vh" }}></div>
             <Canvas
               camera={{ position: [-5, 4.5, 7] }}
-              height={"480px"}
-              width={"640px"}
+              height={"100%"}
+              width={"100%"}
               shadows
             >
               {/* <MyCameraReactsToStateChanges position={[0, 4, 8]}> */}
@@ -300,7 +306,7 @@ function App(props) {
                     setPortal={setPortal}
                     rapier={props.rapier}
                     start={local.data.properties.start}
-                    portalSceneName = {item.portalSceneName}
+                    portalSceneName={item.portalSceneName}
                   />
                 }
               </For>

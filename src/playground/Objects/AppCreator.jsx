@@ -176,6 +176,7 @@ export default function AppCreator(props) {
 								deep={props.deep}
 								noAvatar={true}
 								properties={props.appProperties}
+								inPortal={true}
 							/>
 						}
 					</For>

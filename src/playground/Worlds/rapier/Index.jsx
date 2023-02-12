@@ -6,7 +6,7 @@ Copyright (c) 2022 Nikolay Suslov and the Krestianstvo.org project contributors.
 
 import { produce } from 'solid-js/store';
 import { createSignal, onMount, onCleanup, Show, lazy, mergeProps, createEffect, untrack, createResource, createRoot, Suspense } from 'solid-js';
-import { createLocalStore, Selo, createQRCode, getRandomColor, genID } from 'krestianstvo'
+import { createLocalStore, Selo, getRandomColor, genID, createQRCode, createLinkForSelo } from 'krestianstvo'
 
 import DefaultAvatar from "../../Objects/DefaultAvatar"
 import SeloInfo from "../../Objects/Info"
@@ -21,13 +21,12 @@ import { OrbitControls } from "solid-drei";
 //import Space from "./IndexRapier"
 import Space from "./Space"
 import RapierWorld from "../../Objects/Rapier/RapierWorld"
-import {loadRapierLib } from "../../Objects/Rapier/RapierLib"
-
-const rapierLoad = createRoot(() => {return loadRapierLib()})
+import { loadRapierLib } from "../../Objects/Rapier/RapierLib"
 
 
 function App(props) {
 
+  const rapierLoad = createRoot(() => { return loadRapierLib() })
   const path = import.meta.url// + props.nodeID;
 
   const [local, setLocal] = createLocalStore({
@@ -57,7 +56,7 @@ function App(props) {
   //   loadRapierLib()
   // })
 
- 
+
 
   function handleClick(msg) {
     props.selo.sendExtMsg({ msg: msg, id: props.nodeID })
@@ -67,26 +66,51 @@ function App(props) {
   const [uiEl, setUiEl] = createSignal(null);
 
 
+  let thisDiv;
+
+	let link = createLinkForSelo(props.selo, { p: props.parameters, d: props.deepCount })
+
+	onMount(() => {
+    if(!props.inPortal)
+		  createQRCode(thisDiv, link)
+	})
+
   return (
     <>
-      <div class="bg-blend-color relative flex h-full p1 m2"
+      <div class={props.inPortal ? "bg-blend-color relative flex h-full p1 m2" : "relative flex"}
         style={{
-          border: "2px dotted grey",
-          width: "fit-content"
+          border: props.inPortal ? "2px dotted grey" : "",
+          width: "fit-content",
+          overflow: "hidden"
         }}>
-        <div flex-col>
-          <div flex>
-            <Show when={props.info}>
-              <SeloInfo
-                {...props}
-              />
-            </Show>
-          </div>
-          <div ref={setUiEl}></div>
-        </div>
 
-        <div class="relative p3 m2" ref={setEl} style={{
-          border: "1px solid grey",
+    <Show when={!props.inPortal}>
+      <div p2  style={{
+        position: 'absolute',
+        "z-index": 100,
+        background:"rgba(255, 255, 255, 0.7)"
+
+      }}>
+				<div pb1 ref={thisDiv} />
+				<a href={link} text-center fw300 target="_blank">Link</a>
+			</div>
+      </Show>
+
+        <Show when={props.inPortal}>
+          <div flex-col>
+            <div flex>
+              <Show when={props.info}>
+                <SeloInfo
+                  {...props}
+                />
+              </Show>
+            </div>
+            <div ref={setUiEl}></div>
+          </div>
+        </Show>
+
+        <div class={props.inPortal ? "relative p3 m2" : "relative"} ref={setEl} style={{
+          border: props.inPortal ? "1px solid grey" : "",
           width: "fit-content"
         }}>
 
@@ -102,20 +126,22 @@ function App(props) {
           <div style={{
             position: "relative"
           }}>
-           <span>{rapierLoad.loading && "Loading Rapier Engine..."}</span>
+            <span>{rapierLoad.loading && "Loading Rapier Engine..."}</span>
+            <div style={{ width: props.inPortal ? "400px" : "100vw", height: props.inPortal ? "400px" : "100vh" }}>
               <Canvas
                 camera={{ position: [2, 2, 6] }}
-                height={"400px"}
-                width={"400px"}
+                height={"100%"}
+                width={"100%"}
                 shadows>
-                  <RapierWorld
-                    selo={props.selo}
-                    nodeID={genID("Index" + props.nodeID, path)+"_rapier_"}
-                    scene={Space}
-                    x={-2}
-                  />
+                <RapierWorld
+                  selo={props.selo}
+                  nodeID={genID("Index" + props.nodeID, path) + "_rapier_"}
+                  scene={Space}
+                  x={-2}
+                />
                 {/* <Space selo={props.selo} nodeID={genID("Index" + props.nodeID, path)} /> */}
               </Canvas>
+            </div>
           </div>
         </div>
       </div>

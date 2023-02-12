@@ -6,7 +6,7 @@ Copyright (c) 2022 Nikolay Suslov and the Krestianstvo.org project contributors.
 */
 
 import { createSignal, onMount, onCleanup, Show, lazy, createMemo, createEffect } from 'solid-js';
-import { createLocalStore, Selo, createQRCode, getRandomColor } from 'krestianstvo'
+import { createLocalStore, Selo, createQRCode, createLinkForSelo, getRandomColor } from 'krestianstvo'
 import Avatar from "../../Objects/Avatar"
 import { v4 as uuidv4 } from 'uuid';
 
@@ -119,26 +119,52 @@ function App(props) {
   const [el, setEl] = createSignal(null);
   const [uiEl, setUiEl] = createSignal(null);
 
+  let thisDiv;
+
+  let link = createLinkForSelo(props.selo, { p: props.parameters, d: props.deepCount })
+
+  onMount(() => {
+    if (!props.inPortal)
+      createQRCode(thisDiv, link)
+  })
+
+
   return (
     <>
-      <div class="bg-blend-color relative flex h-full p1 m2"
+      <div class={props.inPortal ? "bg-blend-color relative flex h-full p1 m2" : "relative flex"} 
         style={{
-          border: "2px dotted grey",
-          width: "fit-content"
+          border: props.inPortal ? "2px dotted grey" : "",
+          width: "fit-content",
+          overflow: "hidden"
         }}>
-        <div flex-col>
-          <div flex>
-            <Show when={props.info}>
-              <SeloInfo
-                {...props}
-              />
-            </Show>
-          </div>
-          <div ref={setUiEl}></div>
-        </div>
 
-        <div class="relative p3 m2" ref={setEl} style={{
-          border: "1px solid grey",
+  <Show when={!props.inPortal}>
+      <div p2  style={{
+        position: 'absolute',
+        "z-index": 100,
+        background:"rgba(255, 255, 255, 0.7)"
+
+      }}>
+				<div pb1 ref={thisDiv} />
+				<a href={link} text-center fw300 target="_blank">Link</a>
+			</div>
+      </Show>
+
+        <Show when={props.inPortal}>
+          <div flex-col>
+            <div flex>
+              <Show when={props.info}>
+                <SeloInfo
+                  {...props}
+                />
+              </Show>
+            </div>
+            <div ref={setUiEl}></div>
+          </div>
+        </Show>
+
+        <div class={props.inPortal ? "relative p3 m2" : "relative"} ref={setEl} style={{
+          border: props.inPortal ? "1px solid grey" : "",
           width: "fit-content"
         }}>
 
@@ -153,39 +179,42 @@ function App(props) {
           <div style={{
             position: "relative"
           }}>
+
             <Suspense>
-              <Canvas
-                camera={{ position: [2, 2, 2] }}
-                height={"300px"}
-                width={"300px"}
-                shadows
-              >
-                <color attach="backgroundColor" r={1} g={0} b={0} />
-                <MyCameraReactsToStateChanges pos={[0, 0, 0]} />
-                <group>
-                  <Box {...props} color={local.data.properties.color} />
-                  <mesh position={[0.5, 0.5, 0]} rotation={local.data.properties.angle} castShadow
-                    onClick={() => { handlePause(!local.data.properties.paused) }}
-                  >
-                    <boxBufferGeometry />
-                    <meshStandardMaterial color={"red"} />
-                  </mesh>
-                </group>
-                <ambientLight />
-                <mesh
-                  receiveShadow
-                  position={[0, 0, 0]}
-                  scale={[100, 100, 1]}
-                  rotation={[-Math.PI / 2, 0, 0]}
+              <div style={{ width: props.inPortal ? "300px" : "100vw", height: props.inPortal ? "300px" : "100vh" }}>
+                <Canvas
+                  camera={{ position: [2, 2, 2] }}
+                  height={"100%"}
+                  width={"100%"}
+                  shadows
                 >
-                  <planeGeometry />
-                  <meshStandardMaterial color={"white"} />
-                </mesh>
-                <spotLight castShadow position={[-5, 5, 5]} intensity={1} />
+                  <color attach="backgroundColor" r={1} g={0} b={0} />
+                  <MyCameraReactsToStateChanges pos={[0, 0, 0]} />
+                  <group>
+                    <Box {...props} color={local.data.properties.color} />
+                    <mesh position={[0.5, 0.5, 0]} rotation={local.data.properties.angle} castShadow
+                      onClick={() => { handlePause(!local.data.properties.paused) }}
+                    >
+                      <boxBufferGeometry />
+                      <meshStandardMaterial color={"red"} />
+                    </mesh>
+                  </group>
+                  <ambientLight />
+                  <mesh
+                    receiveShadow
+                    position={[0, 0, 0]}
+                    scale={[100, 100, 1]}
+                    rotation={[-Math.PI / 2, 0, 0]}
+                  >
+                    <planeGeometry />
+                    <meshStandardMaterial color={"white"} />
+                  </mesh>
+                  <spotLight castShadow position={[-5, 5, 5]} intensity={1} />
 
-                <OrbitControls makeDefault={true}/>
+                  <OrbitControls makeDefault={true} />
 
-              </Canvas>
+                </Canvas>
+              </div>
             </Suspense>
           </div>
         </div>

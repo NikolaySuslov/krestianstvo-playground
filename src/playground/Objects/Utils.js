@@ -20,3 +20,12 @@ export const clientRandomColor = () => {
     }
     return color;
 }
+
+export const randomColor = (obj) => {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(obj.random() * 16)];
+    }
+    return color;
+}
