@@ -9,6 +9,8 @@ import { produce } from "solid-js/store";
 import { getRandomColor, createLocalStore, createNode, deleteNode } from 'krestianstvo'
 import Pen from './Pen'
 
+import { randomColor } from './Utils';
+
 import styles from './Objects.module.css';
 import createRAF from "@solid-primitives/raf";
 import { createPerPointerListeners } from '@solid-primitives/pointer'
@@ -23,7 +25,7 @@ export default function Avatar(props) {
 
 	const path = import.meta.url// + props.nodeID
 
-	const [local, setLocal] = createLocalStore({
+	const [local, setLocal, self] = createLocalStore({
 		data: {
 			type: "Avatar",
 			nodeID: props.nodeID,
@@ -108,6 +110,7 @@ export default function Avatar(props) {
 			)
 		}
 
+		//self.future("animate", 0.05)
 		props.selo.future(props.nodeID, "animate", 0.05)
 	}
 
@@ -142,8 +145,8 @@ export default function Avatar(props) {
 
 	const setRandomColor = () => {
 
-		let newColor = getRandomColor(props.selo)
-		setLocal("data", "properties", "color", newColor);
+		let newColor = randomColor(self)
+		 setLocal("data", "properties", "color", newColor);
 
 	}
 

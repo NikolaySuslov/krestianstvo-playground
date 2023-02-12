@@ -208,6 +208,8 @@ export default function DragContainer(props) {
 						border: "0px dotted grey",
 						width: "fit-content",
 						position: "absolute",
+						// resize: "both",
+						// overflow: "auto"
 					}}
 				>
 					<div style={{

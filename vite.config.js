@@ -14,7 +14,8 @@ export default defineConfig(({
   ////DEV MODE
   // resolve: {
   //   alias: {
-  //     'krestianstvo': path.resolve(__dirname, '../krestianstvo-github/src/index.js'),
+  //     //'krestianstvo': path.resolve(__dirname, '../krestianstvo-github/src/index.js'),
+  //     //'@krestianstvo/solid-three': path.resolve(__dirname, '../solid-three-git/dist/index.mjs')
   //   }
   // },
   //

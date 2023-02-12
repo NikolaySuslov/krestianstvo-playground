@@ -327,6 +327,7 @@ export default function SeloPortal(props) {
 										component={props.worlds ? props.worlds[item.app] : props.fallbackWorld}
 										source={props.source}
 										urlSource={item.urlSource}
+										inPortal={true}
 									/>
 								</Show>
 							</div>
