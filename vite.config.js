@@ -4,9 +4,9 @@ import { DOMElements, SVGElements } from "solid-js/web/dist/dev.cjs";
 import Unocss from 'unocss/vite'
 import { presetUno, presetAttributify } from 'unocss'
 
-
 ////DEV MODE
-import devtools from '@solid-devtools/transform'
+import devtools from 'solid-devtools/vite'
+//import devtools from '@solid-devtools/transform'
 //import path from 'path'
 ////
 
@@ -14,7 +14,7 @@ export default defineConfig(({
   ////DEV MODE
   // resolve: {
   //   alias: {
-  //     //'krestianstvo': path.resolve(__dirname, '../krestianstvo-github/src/index.js'),
+  //     'krestianstvo': path.resolve(__dirname, '../krestianstvo-github/src/index.js'),
   //     //'@krestianstvo/solid-three': path.resolve(__dirname, '../solid-three-git/dist/index.mjs')
   //   }
   // },
@@ -40,6 +40,7 @@ export default defineConfig(({
     },
     ////DEV MODE
     devtools({
+      autoname: true, 
       name: true,
     }),
     ////

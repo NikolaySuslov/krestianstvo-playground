@@ -11,6 +11,7 @@ import 'virtual:uno.css'
 import configFile from './config.json?raw'
 const [config, setConfig] = initGlobalConfig(JSON.parse(configFile))
 /// DEV Mode ///
+import 'solid-devtools'
 import { attachDevtoolsOverlay } from '@solid-devtools/overlay'
 
 if (config.devMode)
