@@ -13,7 +13,6 @@ import SeloInfo from "../../Objects/Info"
 import Avatar from "../../Objects/Avatar"
 
 import worlds from "../../Web/Worlds"
-import { v4 as uuidv4 } from 'uuid';
 
 import Counter from '../../Objects/Counter'
 import Demo1 from '../demo1/Index'

@@ -32,10 +32,10 @@ export default function SeloInfo(props) {
                     {(item) =>
                         <Switch>
                             <Match when={item === props.selo.storeVT.moniker_}>
-                                <strong><div>{item.substr(0,9)} </div></strong>
+                                <strong><div>{item} </div></strong>
                             </Match>
                             <Match when={item !== props.selo.storeVT.moniker_}>
-                                <div>{item.substr(0,9)}</div>
+                                <div>{item}</div>
                             </Match>
                         </Switch>
                     }

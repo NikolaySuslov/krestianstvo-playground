@@ -13,8 +13,6 @@ import PaintCanvas from '../../Objects/PaintCanvas'
 import DefaultAvatar from "../../Objects/DefaultAvatar"
 import SeloInfo from "../../Objects/Info"
 
-import { v4 as uuidv4 } from 'uuid';
-
 import Avatar from "../../Objects/Avatar"
 
 import Styles from '../../Web/Styles'

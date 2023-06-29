@@ -8,7 +8,6 @@ import { createSignal, onMount, onCleanup, Show, lazy, createMemo, createEffect,
 import { produce, createStore } from "solid-js/store";
 import { createLocalStore, Selo, createQRCode, createLinkForSelo, getRandomColor, genID } from 'krestianstvo'
 import Avatar from "../../Objects/Avatar"
-import { v4 as uuidv4 } from 'uuid';
 
 import DefaultAvatar from "../../Objects/DefaultAvatar"
 import SeloInfo from "../../Objects/Info"

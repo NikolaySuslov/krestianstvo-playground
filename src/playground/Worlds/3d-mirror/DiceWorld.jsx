@@ -7,7 +7,6 @@ Copyright (c) 2022 Nikolay Suslov and the Krestianstvo.org project contributors.
 import { createSignal, onMount, onCleanup, createEffect } from 'solid-js';
 import { createStore } from "solid-js/store";
 import { createLocalStore, Selo, createQRCode, getRandomColor } from 'krestianstvo'
-import { v4 as uuidv4 } from 'uuid';
 
 import { Canvas, useThree, useFrame } from "@krestianstvo/solid-three";
 import { useGLTF } from "solid-drei";

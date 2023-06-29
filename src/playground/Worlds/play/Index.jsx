@@ -12,7 +12,7 @@ import SeloPortal from "../../Objects/Portal"
 import DefaultAvatar from "../../Objects/DefaultAvatar"
 import Avatar from "../../Objects/Avatar"
 import AvatarSimple from "../../Objects/AvatarSimple"
-import { v4 as uuidv4 } from 'uuid';
+import { createId } from '@paralleldrive/cuid2'
 
 // import configFile from './config.json?raw'
 
@@ -100,7 +100,7 @@ function App(props) {
     let state = replaceURLs(JSON.parse(text))
     //props.selo.setLocal("data", "seloSource", JSON.stringify(state));
 
-    let k = uuidv4();
+    let k = createId()
 
     props.selo.setStoreVT("seloSource", state);
     props.selo.sendExtMsg({ msg: "createNode", id: props.nodeID, params: [{ component: "SeloPortal", url: "k?k=" + k, restored: true, position: { x: 100, y: 0 } }] })

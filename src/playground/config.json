@@ -1,4 +1,4 @@
 {
-    "defaultReflectorHost": "http://localhost:3001",
+    "defaultReflectorHost": "ws://localhost:3001",
     "devMode": false
 }

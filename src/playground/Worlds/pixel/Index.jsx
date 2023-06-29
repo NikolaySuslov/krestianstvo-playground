@@ -10,7 +10,6 @@ import { genID, createLocalStore, Selo, createQRCode, createLinkForSelo, getRand
 
 import DefaultAvatar from "../../Objects/DefaultAvatar"
 
-import { v4 as uuidv4 } from 'uuid';
 
 import Styles from '../../Web/Styles'
 
