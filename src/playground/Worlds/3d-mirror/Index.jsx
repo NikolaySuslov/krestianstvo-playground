@@ -6,8 +6,7 @@ Copyright (c) 2022 Nikolay Suslov and the Krestianstvo.org project contributors.
 
 import { createSignal, onMount, onCleanup, Show, lazy, createMemo, createEffect, createRoot } from 'solid-js';
 import { produce, createStore } from "solid-js/store";
-import { createLocalStore, Selo, createQRCode, getRandomColor } from 'krestianstvo'
-import Avatar from "../../Objects/Avatar"
+import { createLocalStore, Selo, getRandomColor, createQRCode, createLinkForSelo, genID } from 'krestianstvo'
 
 import DefaultAvatar from "../../Objects/DefaultAvatar"
 import SeloInfo from "../../Objects/Info"
@@ -35,8 +34,10 @@ import { loadRapierLib } from "../../Objects/Rapier/RapierLib"
 function App(props) {
 
   const rapierLoad = createRoot(() => { return loadRapierLib() })
-  
+
   const path = import.meta.url// + props.nodeID;
+
+  const aID = genID("A" + props.nodeID, path);
 
   const [local, setLocal] = createLocalStore({
     data: {
@@ -237,6 +238,15 @@ function App(props) {
     DiceWorld: diceWorldComponent
   }
 
+  let thisDiv;
+
+  let link = createLinkForSelo(props.selo, { p: props.parameters, d: props.deepCount })
+
+  onMount(() => {
+    if (!props.inPortal)
+      createQRCode(thisDiv, link)
+  })
+
   //[handleClick, ["changeScene", "C"]]
 
   return (
@@ -247,6 +257,19 @@ function App(props) {
           width: "fit-content",
           overflow: "hidden"
         }}>
+
+        <Show when={!props.inPortal}>
+          <div p2 style={{
+            position: 'absolute',
+            top: "10px",
+            "z-index": 100,
+            background: "rgba(255, 255, 255, 0.7)"
+
+          }}>
+            <div pb1 ref={thisDiv} />
+            <a href={link} text-center fw300 target="_blank">Link</a>
+          </div>
+        </Show>
 
         <Show when={props.inPortal}>
           <div flex-col>
@@ -265,10 +288,6 @@ function App(props) {
           border: props.inPortal ? "1px solid grey" : "",
           width: "fit-content"
         }}>
-          <div p1>
-            <button onClick={[changeScene, ["A"]]}>Enter A World</button>
-            <button onClick={[changeScene, ["DiceWorld"]]}>Enter Dice World</button>
-          </div>
           {/* <Show when={!props.noAvatar}>
             <DefaultAvatar
               {...props}
@@ -281,41 +300,40 @@ function App(props) {
             position: "relative"
           }}>
             <span>{rapierLoad.loading && "Loading Rapier Engine..."}</span>
-            <div style={{ width: props.inPortal ? "640px" : "100vw", height: props.inPortal ? "480px" : "100vh" }}></div>
-            <Canvas
-              camera={{ position: [-5, 4.5, 7] }}
-              height={"100%"}
-              width={"100%"}
-              shadows
-            >
-              {/* <MyCameraReactsToStateChanges position={[0, 4, 8]}> */}
-              {/* <perspectiveCamera position={[0, 3, 4]}></perspectiveCamera> */}
+            <div style={{ width: props.inPortal ? "640px" : "100vw", height: props.inPortal ? "480px" : "100vh" }}>
+              <Canvas
+                camera={{ position: [-5, 4.5, 7] }}
+                height={"100%"}
+                width={"100%"}
+                shadows
+              >
 
-              <For each={local.data.dynamic}>
-                {(item) =>
-                  <Dynamic
-                    component={scenes[item.component]}
-                    nodeID={item.nodeID}
-                    sceneName={item.nodeID}
-                    current={current() == item.nodeID}
-                    set={setCurrentScene}
-                    currentSceneOnView={currentScene}
-                    selo={props.selo}
-                    portals={portals}
-                    setPortal={setPortal}
-                    rapier={props.rapier}
-                    start={local.data.properties.start}
-                    portalSceneName={item.portalSceneName}
-                  />
-                }
-              </For>
+                <For each={local.data.dynamic}>
+                  {(item) =>
+                    <Dynamic
+                      component={scenes[item.component]}
+                      nodeID={item.nodeID}
+                      sceneName={item.nodeID}
+                      current={current() == item.nodeID}
+                      set={setCurrentScene}
+                      currentSceneOnView={currentScene}
+                      selo={props.selo}
+                      portals={portals}
+                      setPortal={setPortal}
+                      rapier={props.rapier}
+                      start={local.data.properties.start}
+                      portalSceneName={item.portalSceneName}
+                    />
+                  }
+                </For>
 
-              <RenderMain {...props}></RenderMain>
+                <RenderMain {...props}></RenderMain>
 
-              <OrbitControls ref={orbitRef} minPolarAngle={0} maxPolarAngle={Math.PI / 2.1} enableZoom={false} makeDefault={true} />
+                <OrbitControls ref={orbitRef} minPolarAngle={0} maxPolarAngle={Math.PI / 2.1} enableZoom={false} makeDefault={true} />
 
-            </Canvas>
+              </Canvas>
 
+            </div>
           </div>
         </div>
       </div>

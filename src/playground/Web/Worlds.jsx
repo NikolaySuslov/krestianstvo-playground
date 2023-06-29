@@ -65,7 +65,7 @@ const worlds = {
     rselo: rselo,
     rworld: rworld,
     "3d": portals3d,
-    "3d-2": portals3d_mirror,
+    "3d-m": portals3d_mirror,
 
     k: play
 
