@@ -14,7 +14,6 @@ import SeloInfo from "../../Objects/Info"
 
 import Avatar from "../../Objects/Avatar"
 import AvatarSimple from "../../Objects/AvatarSimple"
-import { v4 as uuidv4 } from 'uuid';
 
 import Counter from '../../Objects/Counter'
 import Styles from '../../Web/Styles'

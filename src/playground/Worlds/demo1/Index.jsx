@@ -11,8 +11,6 @@ import AvatarSimple from "../../Objects/Avatar"
 
 import { genID, createLocalStore, Selo } from 'krestianstvo'
 
-import { v4 as uuidv4 } from 'uuid';
-
 import SeloPortal from "../../Objects/Portal"
 import AppCreator from "../../Objects/AppCreator"
 import DefaultAvatar from "../../Objects/DefaultAvatar"

@@ -7,7 +7,6 @@ Copyright (c) 2022 Nikolay Suslov and the Krestianstvo.org project contributors.
 import { createSignal, onMount, onCleanup, Show} from 'solid-js';
 import { genID, createLocalStore, Selo } from 'krestianstvo'
 import Avatar from "../../Objects/Avatar"
-import { v4 as uuidv4 } from 'uuid';
 
 import DefaultAvatar from "../../Objects/DefaultAvatar"
 import SeloInfo from "../../Objects/Info"

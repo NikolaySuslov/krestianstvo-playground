@@ -7,7 +7,7 @@ Copyright (c) 2022 Nikolay Suslov and the Krestianstvo.org project contributors.
 import { createSignal, onMount, onCleanup, Show } from 'solid-js';
 import { genID, createLocalStore, initializeOnMount, getWorldConfig, Selo, addLocalSelo, shortRandomIDInView } from 'krestianstvo'
 import Avatar from "../../Objects/Avatar"
-import { v4 as uuidv4 } from 'uuid';
+import { createId } from '@paralleldrive/cuid2'
 
 import DefaultAvatar from "../../Objects/DefaultAvatar"
 import SeloInfo from "../../Objects/Info"
@@ -157,9 +157,9 @@ function App(props) {
 
           <div class="p4">
             <div class="truncate flex">
-              <button class={buttonGreen()} onClick={[handleClick, ["createSelo", { app: "demo1", info: true, reflectorHost: props.rootSelo ? props.rootSelo.reflectorHost : props.selo.reflectorHost, deep: props.deep, id: uuidv4() }]]}>New Selo</button>
+              <button class={buttonGreen()} onClick={[handleClick, ["createSelo", { app: "demo1", info: true, reflectorHost: props.rootSelo ? props.rootSelo.reflectorHost : props.selo.reflectorHost, deep: props.deep, id: createId() }]]}>New Selo</button>
               <button class={buttonGreen()} onClick={handleCreateCounter}>New Counter</button>
-              <button class={buttonGreen()} onClick={[handleClick, ["createNode", { type: "App", component: "demo1", id: uuidv4(), noAvatar: true }]]}>New App</button>
+              <button class={buttonGreen()} onClick={[handleClick, ["createNode", { type: "App", component: "demo1", id: createId(), noAvatar: true }]]}>New App</button>
             </div>
 
             <For each={local.data.dynamic}>
